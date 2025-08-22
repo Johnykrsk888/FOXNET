@@ -3,6 +3,7 @@
     "id": 1,
     "title": "Одномодовый оптоволоконный кабель Foxnet - 12 волокон",
     "image": "./Foxnet Telecommunications Equipment Catalog_files/9cd6c8987056d73e9b6597dc0a7ad3fa4fbb6415b60dc82c0206167f147bab22.JPG",
+    "sku": "FN-FOC-SM-12",
     "specs": [
       { "label": "Тип", "value": "Одномодовый" },
       { "label": "Количество волокон", "value": "12" },
@@ -18,6 +19,7 @@
     "id": 2,
     "title": "Коммутатор Foxnet Enterprise Gigabit - 24 порта",
     "image": "./Foxnet Telecommunications Equipment Catalog_files/9cd6c8987056d73e9b6597dc0a7ad3fa4fbb6415b60dc82c0206167f147bab22.JPG",
+    "sku": "FN-SW-24G",
     "specs": [
       { "label": "Порты", "value": "24 x RJ45" },
       { "label": "Скорость", "value": "10/100/1000 Мбит/с" },
@@ -33,6 +35,7 @@
     "id": 3,
     "title": "Оптоволоконный коннектор Foxnet LC/UPC - Одномодовый (10 шт.)",
     "image": "./Foxnet Telecommunications Equipment Catalog_files/9cd6c8987056d73e9b6597dc0a7ad3fa4fbb6415b60dc82c0206167f147bab22.JPG",
+    "sku": "FN-CON-LCSM-10",
     "specs": [
       { "label": "Тип", "value": "LC/UPC" },
       { "label": "Режим", "value": "Одномодовый" },
@@ -48,6 +51,7 @@
     "id": 4,
     "title": "Экранированный кабель Ethernet Foxnet CAT6A - катушка 305 м",
     "image": "./Foxnet Telecommunications Equipment Catalog_files/9cd6c8987056d73e9b6597dc0a7ad3fa4fbb6415b60dc82c0206167f147bab22.JPG",
+    "sku": "FN-ETH-C6A-305",
     "specs": [
       { "label": "Категория", "value": "CAT6A" },
       { "label": "Экранирование", "value": "F/UTP" },
@@ -63,6 +67,7 @@
     "id": 5,
     "title": "Оптоволоконная патч-панель Foxnet 1U - 24 порта LC Duplex",
     "image": "./Foxnet Telecommunications Equipment Catalog_files/9cd6c8987056d73e9b6597dc0a7ad3fa4fbb6415b60dc82c0206167f147bab22.JPG",
+    "sku": "FN-PP-1U-24LC",
     "specs": [
       { "label": "Юниты", "value": "1U" },
       { "label": "Порты", "value": "24 LC Duplex" },
@@ -78,6 +83,7 @@
     "id": 6,
     "title": "Медиаконвертер Foxnet Gigabit Ethernet - SFP в RJ45",
     "image": "./Foxnet Telecommunications Equipment Catalog_files/9cd6c8987056d73e9b6597dc0a7ad3fa4fbb6415b60dc82c0206167f147bab22.JPG",
+    "sku": "FN-MC-SFP-RJ45",
     "specs": [
       { "label": "Интерфейс", "value": "SFP в RJ45" },
       { "label": "Скорость", "value": "10/100/1000 Мбит/с" },
@@ -93,6 +99,7 @@
     "id": 7,
     "title": "Купольная оптоволоконная муфта Foxnet - 96 волокон",
     "image": "./Foxnet Telecommunications Equipment Catalog_files/9cd6c8987056d73e9b6597dc0a7ad3fa4fbb6415b60dc82c0206167f147bab22.JPG",
+    "sku": "FN-FOSC-D96",
     "specs": [
       { "label": "Тип", "value": "Купольная" },
       { "label": "Емкость", "value": "96 волокон" },
@@ -108,6 +115,7 @@
     "id": 8,
     "title": "Трансиверный модуль Foxnet SFP+ - 10G одномодовый",
     "image": "./Foxnet Telecommunications Equipment Catalog_files/9cd6c8987056d73e9b6597dc0a7ad3fa4fbb6415b60dc82c0206167f147bab22.JPG",
+    "sku": "FN-SFP-10G-SM",
     "specs": [
       { "label": "Тип", "value": "SFP+" },
       { "label": "Скорость", "value": "10 Гбит/с" },
@@ -123,6 +131,7 @@
     "id": 9,
     "title": "Настенный распределительный бокс Foxnet - 24 порта",
     "image": "./Foxnet Telecommunications Equipment Catalog_files/9cd6c8987056d73e9b6597dc0a7ad3fa4fbb6415b60dc82c0206167f147bab22.JPG",
+    "sku": "FN-FDB-W24",
     "specs": [
       { "label": "Монтаж", "value": "Настенный" },
       { "label": "Емкость", "value": "24 порта" },

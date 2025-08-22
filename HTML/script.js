@@ -29,14 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
         <div class="product-info">
           <h3 class="product-title">${product.title}</h3>
-          <div class="product-specs">
-            ${product.specs.map(spec => `
-              <div class="spec-item">
-                <span class="spec-label">${spec.label}:</span>
-                <span class="spec-value">${spec.value}</span>
-              </div>
-            `).join('')}
-          </div>
+          <div class="product-sku">Артикул: ${product.sku}</div>
           <div class="product-price">${product.price.toFixed(2)} ₽</div>
           <div class="product-actions">
             <div class="cart-btn">В корзину</div>
