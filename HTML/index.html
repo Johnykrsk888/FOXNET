@@ -101,10 +101,23 @@
         }
 
         .header-buttons a {
+            position: relative; /* For positioning the cart count */
             text-decoration: none;
             color: #333;
             margin-left: 20px;
             font-size: 20px;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -10px;
+            background-color: red;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 10px;
+            font-weight: bold;
         }
 
         /* Breadcrumb Styles */
@@ -348,10 +361,9 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
 
-        .product-card-link {
+        .product-card a {
             text-decoration: none;
             color: inherit;
-            display: block;
         }
 
         .product-image {
@@ -424,7 +436,7 @@
             gap: 10px;
         }
 
-        .quote-btn, .cart-btn {
+        .cart-btn {
             display: flex;
             align-items: center;
             justify-content: center;
@@ -436,22 +448,10 @@
             cursor: pointer;
             text-align: center;
             transition: background-color 0.3s;
-        }
-
-        .quote-btn {
-            background-color: #fff;
-            color: #FF6B00;
-            border: 1px solid #FF6B00;
-        }
-
-        .quote-btn:hover {
-            background-color: #FFF0E6;
-        }
-
-        .cart-btn {
             background-color: #FF6B00;
             color: white;
             border: none;
+            width: 100%;
         }
 
         .cart-btn:hover {
@@ -521,7 +521,7 @@
                 <div class="header-actions">
                     <div class="header-buttons">
                         <a href="#"><i class="ri-user-line"></i></a>
-                        <a href="#"><i class="ri-shopping-cart-2-line"></i></a>
+                        <a href="cart.html"><i class="ri-shopping-cart-2-line"></i></a>
                     </div>
                 </div>
             </div>
