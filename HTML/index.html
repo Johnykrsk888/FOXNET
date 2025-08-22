@@ -236,6 +236,20 @@
             color: #555;
         }
 
+        .category-filter li {
+            margin-bottom: 10px;
+        }
+
+        .category-filter a {
+            text-decoration: none;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .category-filter a:hover {
+            color: #FF6B00;
+        }
+
         .price-range {
             display: flex;
             align-items: center;
@@ -533,33 +547,21 @@
             <div class="sidebar">
                 <h3>Фильтры товаров</h3>
                 
-                <!-- Cable Types Filter -->
+                <!-- Category Filter -->
                 <div class="filter-section">
                     <div class="filter-title">
-                        <span>Типы кабеля</span>
-                        <i class="ri-arrow-down-s-line"></i>
+                        <span>Разделы каталога</span>
                     </div>
-                    <ul class="filter-options">
-                        <li class="filter-option">
-                            <input type="checkbox" id="fiber-optic" class="filter-checkbox">
-                            <label for="fiber-optic" class="filter-label">Оптоволокно</label>
-                        </li>
-                        <li class="filter-option">
-                            <input type="checkbox" id="cat6" class="filter-checkbox">
-                            <label for="cat6" class="filter-label">CAT6</label>
-                        </li>
-                        <li class="filter-option">
-                            <input type="checkbox" id="cat6a" class="filter-checkbox">
-                            <label for="cat6a" class="filter-label">CAT6A</label>
-                        </li>
-                        <li class="filter-option">
-                            <input type="checkbox" id="cat7" class="filter-checkbox">
-                            <label for="cat7" class="filter-label">CAT7</label>
-                        </li>
-                        <li class="filter-option">
-                            <input type="checkbox" id="coaxial" class="filter-checkbox">
-                            <label for="coaxial" class="filter-label">Коаксиальный</label>
-                        </li>
+                    <ul class="filter-options category-filter">
+                        <li><a href="#" data-category="Плоский DROP">Плоский DROP</a></li>
+                        <li><a href="#" data-category="Круглый DROP">Круглый DROP</a></li>
+                        <li><a href="#" data-category="ASU Кабель">ASU Кабель</a></li>
+                        <li><a href="#" data-category="ADSS Кабель">ADSS Кабель</a></li>
+                        <li><a href="#" data-category="МУФТЫ И БОКСЫ">МУФТЫ И БОКСЫ</a></li>
+                        <li><a href="#" data-category="UTP Кабель">UTP Кабель</a></li>
+                        <li><a href="#" data-category="Компоненты СКС">Компоненты СКС</a></li>
+                        <li><a href="#" data-category="Активное оборудование">Активное оборудование</a></li>
+                        <li><a href="#" data-category="Оптические компоненты">Оптические компоненты</a></li>
                     </ul>
                 </div>
                 

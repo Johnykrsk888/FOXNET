@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const sortSelect = document.querySelector('.sort-select');
   const searchInput = document.getElementById('product-search-input');
   const navLinks = document.querySelectorAll('.nav-menu a');
+  const sidebarLinks = document.querySelectorAll('.category-filter a');
   const logo = document.getElementById('logo');
   const cartIcon = document.querySelector('.ri-shopping-cart-2-line');
 
@@ -89,7 +90,9 @@ document.addEventListener('DOMContentLoaded', () => {
     updateResultsCount();
   }
 
-  navLinks.forEach(link => {
+  const allCategoryLinks = [...navLinks, ...sidebarLinks];
+
+  allCategoryLinks.forEach(link => {
     link.addEventListener('click', (e) => {
       e.preventDefault();
       const category = link.dataset.category;
