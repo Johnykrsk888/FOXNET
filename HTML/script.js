@@ -3,20 +3,24 @@ document.addEventListener('DOMContentLoaded', () => {
   const resultsCount = document.querySelector('.results-count');
   const sortSelect = document.querySelector('.sort-select');
   const searchInput = document.getElementById('product-search-input');
-  const navLinks = document.querySelectorAll('.nav-menu a');
-  const sidebarLinks = document.querySelectorAll('.category-filter a');
   const logo = document.getElementById('logo');
   const cartIcon = document.querySelector('.ri-shopping-cart-2-line');
+  
+  // Filters
+  const allFilters = document.querySelectorAll('.filter-checkbox');
+  const priceMinInput = document.querySelector('.price-input[placeholder="Мин"]');
+  const priceMaxInput = document.querySelector('.price-input[placeholder="Макс"]');
+  const applyPriceBtn = document.querySelector('.apply-btn');
 
   let allProducts = [];
-  let filteredProducts = [];
   let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
   function updateCartIcon() {
-    const cartItemCount = cart.length;
+    const cartItemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
     const cartIconContainer = cartIcon.parentElement;
+    let countElement = cartIconContainer.querySelector('.cart-count');
+
     if (cartItemCount > 0) {
-        let countElement = cartIconContainer.querySelector('.cart-count');
         if (!countElement) {
             countElement = document.createElement('span');
             countElement.classList.add('cart-count');
@@ -24,7 +28,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         countElement.textContent = cartItemCount;
     } else {
-        const countElement = cartIconContainer.querySelector('.cart-count');
         if (countElement) {
             countElement.remove();
         }
@@ -32,7 +35,12 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function addToCart(productId) {
-    cart.push(productId);
+    const existingProduct = cart.find(item => item.id === productId);
+    if (existingProduct) {
+        existingProduct.quantity++;
+    } else {
+        cart.push({ id: productId, quantity: 1 });
+    }
     localStorage.setItem('cart', JSON.stringify(cart));
     updateCartIcon();
   }
@@ -44,19 +52,64 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  fetch('products.json')
-    .then(response => response.json())
-    .then(products => {
-      allProducts = products;
-      filteredProducts = allProducts;
-      renderProducts();
-      updateResultsCount();
-      updateCartIcon(); // Initial update
-    });
+  function applyAllFilters() {
+    let filtered = [...allProducts];
 
-  function renderProducts() {
+    // Search Filter
+    const searchTerm = searchInput.value.toLowerCase();
+    if (searchTerm) {
+        filtered = filtered.filter(product => 
+            product.title.toLowerCase().includes(searchTerm)
+        );
+    }
+
+    // Category & Fiber Count Filters (Checkboxes)
+    const activeCheckboxes = document.querySelectorAll('.filter-checkbox:checked');
+    if (activeCheckboxes.length > 0) {
+        const filterGroups = {};
+        activeCheckboxes.forEach(cb => {
+            const filterType = cb.closest('.filter-section').querySelector('.filter-title span').textContent;
+            if (!filterGroups[filterType]) {
+                filterGroups[filterType] = [];
+            }
+            filterGroups[filterType].push(cb.dataset.category || cb.nextElementSibling.textContent);
+        });
+
+        for (const group in filterGroups) {
+            const selectedValues = filterGroups[group];
+            if (selectedValues.length > 0) {
+                filtered = filtered.filter(product => {
+                    if (group === 'Разделы каталога') {
+                        return selectedValues.includes(product.category);
+                    }
+                    if (group === 'Количество волокон') {
+                        const fiberCount = parseInt(product.fiber_count);
+                        return selectedValues.some(val => fiberCount === parseInt(val));
+                    }
+                    return true;
+                });
+            }
+        }
+    }
+
+    // Price Filter
+    const minPrice = parseFloat(priceMinInput.value);
+    const maxPrice = parseFloat(priceMaxInput.value);
+
+    if (!isNaN(minPrice)) {
+        filtered = filtered.filter(product => product.price >= minPrice);
+    }
+    if (!isNaN(maxPrice)) {
+        filtered = filtered.filter(product => product.price <= maxPrice);
+    }
+
+    renderProducts(filtered);
+    updateResultsCount(filtered);
+  }
+
+  function renderProducts(productsToRender) {
     productGrid.innerHTML = '';
-    filteredProducts.forEach(product => {
+    productsToRender.forEach(product => {
       const productCard = document.createElement('div');
       productCard.classList.add('product-card');
       productCard.innerHTML = `
@@ -80,53 +133,31 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  function updateResultsCount() {
-    resultsCount.textContent = `Показано ${filteredProducts.length} из ${allProducts.length} товаров`;
+  function updateResultsCount(products) {
+    resultsCount.textContent = `Показано ${products.length} из ${allProducts.length} товаров`;
   }
-
-  function filterByCategory(category) {
-    filteredProducts = allProducts.filter(product => product.category === category);
-    renderProducts();
-    updateResultsCount();
-  }
-
-  const allCategoryLinks = [...navLinks, ...sidebarLinks];
-
-  allCategoryLinks.forEach(link => {
-    link.addEventListener('click', (e) => {
-      e.preventDefault();
-      const category = link.dataset.category;
-      filterByCategory(category);
-    });
-  });
 
   logo.addEventListener('click', (e) => {
     e.preventDefault();
-    filteredProducts = allProducts;
-    renderProducts();
-    updateResultsCount();
+    // Reset all filters
+    searchInput.value = '';
+    priceMinInput.value = '';
+    priceMaxInput.value = '';
+    document.querySelectorAll('.filter-checkbox:checked').forEach(cb => cb.checked = false);
+    applyAllFilters();
   });
 
-  function sortProducts() {
-    const sortBy = sortSelect.value;
-    if (sortBy === 'Популярности') {
-      // No change for now, as we don't have popularity data
-    } else if (sortBy === 'Цене: по возрастанию') {
-      filteredProducts.sort((a, b) => a.price - b.price);
-    } else if (sortBy === 'Цене: по убыванию') {
-      filteredProducts.sort((a, b) => b.price - a.price);
-    }
-    renderProducts();
-  }
+  // Event Listeners
+  searchInput.addEventListener('input', applyAllFilters);
+  allFilters.forEach(filter => filter.addEventListener('change', applyAllFilters));
+  applyPriceBtn.addEventListener('click', applyAllFilters);
 
-  sortSelect.addEventListener('change', sortProducts);
-
-  searchInput.addEventListener('input', (e) => {
-    const searchTerm = e.target.value.toLowerCase();
-    filteredProducts = allProducts.filter(product => 
-      product.title.toLowerCase().includes(searchTerm)
-    );
-    renderProducts();
-    updateResultsCount();
-  });
+  // Initial Load
+  fetch('products.json')
+    .then(response => response.json())
+    .then(products => {
+      allProducts = products;
+      applyAllFilters(); // Apply initial filters (if any)
+      updateCartIcon();
+    });
 });
