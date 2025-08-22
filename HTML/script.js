@@ -24,17 +24,16 @@ document.addEventListener('DOMContentLoaded', () => {
       const productCard = document.createElement('div');
       productCard.classList.add('product-card');
       productCard.innerHTML = `
-        <div class="product-image">
-          <img src="${product.image}" alt="${product.title}">
-        </div>
-        <div class="product-info">
-          <h3 class="product-title">${product.title}</h3>
-          <div class="product-sku">Артикул: ${product.sku}</div>
-          <div class="product-price">${product.price.toFixed(2)} ₽</div>
-          <div class="product-actions">
-            <div class="cart-btn">В корзину</div>
-          </div>
-        </div>
+        <a href="product.html?id=${product.id}" class="product-card-link">
+            <div class="product-image">
+              <img src="${product.image}" alt="${product.title}">
+            </div>
+            <div class="product-info">
+              <h3 class="product-title">${product.title}</h3>
+              <div class="product-sku">Артикул: ${product.sku}</div>
+              <div class="product-price">${product.price.toFixed(2)} ₽</div>
+            </div>
+        </a>
       `;
       productGrid.appendChild(productCard);
     });
