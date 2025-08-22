@@ -2,13 +2,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const productGrid = document.querySelector('.product-grid');
   const resultsCount = document.querySelector('.results-count');
   const sortSelect = document.querySelector('.sort-select');
-  const filters = document.querySelectorAll('.filter-checkbox');
   const searchInput = document.getElementById('product-search-input');
+  const navLinks = document.querySelectorAll('.nav-menu a');
+  const logo = document.getElementById('logo');
 
   let allProducts = [];
   let filteredProducts = [];
 
-  // Fetch products from the API
   fetch('products.json')
     .then(response => response.json())
     .then(products => {
@@ -44,32 +44,26 @@ document.addEventListener('DOMContentLoaded', () => {
     resultsCount.textContent = `Показано ${filteredProducts.length} из ${allProducts.length} товаров`;
   }
 
-  function applyFilters() {
-    const activeFilters = {};
-    filters.forEach(filter => {
-      if (filter.checked) {
-        const filterType = filter.closest('.filter-section').querySelector('.filter-title span').textContent.toLowerCase().replace(' ', '_');
-        if (!activeFilters[filterType]) {
-          activeFilters[filterType] = [];
-        }
-        activeFilters[filterType].push(filter.nextElementSibling.textContent);
-      }
-    });
-
-    filteredProducts = allProducts.filter(product => {
-        for (const filterType in activeFilters) {
-            const filterValues = activeFilters[filterType];
-            const productValue = product[filterType];
-            if (filterValues.length > 0 && !filterValues.includes(productValue)) {
-                return false;
-            }
-        }
-        return true;
-    });
-
+  function filterByCategory(category) {
+    filteredProducts = allProducts.filter(product => product.category === category);
     renderProducts();
     updateResultsCount();
   }
+
+  navLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const category = link.dataset.category;
+      filterByCategory(category);
+    });
+  });
+
+  logo.addEventListener('click', (e) => {
+    e.preventDefault();
+    filteredProducts = allProducts;
+    renderProducts();
+    updateResultsCount();
+  });
 
   function sortProducts() {
     const sortBy = sortSelect.value;
@@ -83,7 +77,6 @@ document.addEventListener('DOMContentLoaded', () => {
     renderProducts();
   }
 
-  filters.forEach(filter => filter.addEventListener('change', applyFilters));
   sortSelect.addEventListener('change', sortProducts);
 
   searchInput.addEventListener('input', (e) => {
