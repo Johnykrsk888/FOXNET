@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const resultsCount = document.querySelector('.results-count');
   const sortSelect = document.querySelector('.sort-select');
   const filters = document.querySelectorAll('.filter-checkbox');
+  const searchInput = document.getElementById('product-search-input');
 
   let allProducts = [];
   let filteredProducts = [];
@@ -91,4 +92,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   filters.forEach(filter => filter.addEventListener('change', applyFilters));
   sortSelect.addEventListener('change', sortProducts);
+
+  searchInput.addEventListener('input', (e) => {
+    const searchTerm = e.target.value.toLowerCase();
+    filteredProducts = allProducts.filter(product => 
+      product.title.toLowerCase().includes(searchTerm)
+    );
+    renderProducts();
+    updateResultsCount();
+  });
 });

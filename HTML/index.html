@@ -261,6 +261,58 @@
             background-color: #E05F00;
         }
 
+        .controls-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .product-search {
+            position: relative;
+        }
+
+        .product-search input {
+            padding: 8px 15px;
+            padding-right: 40px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 250px;
+        }
+
+        .product-search i {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+        }
+
+        .controls-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .product-search {
+            position: relative;
+        }
+
+        .product-search input {
+            padding: 8px 15px;
+            padding-right: 40px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 250px;
+        }
+
+        .product-search i {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+        }
+
         /* Product Grid Styles */
         .product-section {
             flex: 1;
@@ -575,8 +627,14 @@
             <!-- Product Section -->
             <div class="product-section">
                 <div class="product-controls">
-                    <div class="results-count">
-                        Показано 1-9 из 42 товаров
+                    <div class="controls-left">
+                        <div class="results-count">
+                            Показано 1-9 из 42 товаров
+                        </div>
+                        <div class="product-search">
+                            <input type="text" id="product-search-input" placeholder="Поиск в каталоге...">
+                            <i class="ri-search-line"></i>
+                        </div>
                     </div>
                     <div class="sort-options">
                         <span class="sort-label">Сортировать по:</span>
