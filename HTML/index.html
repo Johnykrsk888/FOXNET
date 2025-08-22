@@ -317,11 +317,14 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
             background-color: #fff;
             padding: 15px 20px;
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: fixed;
+            top: 85px;
+            width: 1070px; /* Calculated width of the product section */
+            z-index: 99;
         }
 
         .results-count {
@@ -350,16 +353,11 @@
             background-color: #fff;
         }
 
-        .product-grid-container {
-            height: calc(100vh - 185px); /* header + controls height */
-            overflow-y: auto;
-            padding-right: 10px; /* for scrollbar */
-        }
-
         .product-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 20px;
+            margin-top: 90px; /* To push grid below fixed controls */
         }
 
         .product-card {
@@ -662,9 +660,7 @@
                     </div>
                 </div>
                 
-                <div class="product-grid-container">
-                    <div class="product-grid"></div>
-                </div>
+                <div class="product-grid"></div>
                 
                 
             </div>
