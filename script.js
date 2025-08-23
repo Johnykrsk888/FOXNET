@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const searchInput = document.getElementById('product-search-input');
   const logo = document.getElementById('logo');
   const cartIcon = document.querySelector('.ri-shopping-cart-2-line');
+  const navMenuLinks = document.querySelectorAll('.nav-menu a[data-category]');
   
   // Filters
   const allFilters = document.querySelectorAll('.filter-checkbox');
@@ -103,6 +104,14 @@ document.addEventListener('DOMContentLoaded', () => {
         filtered = filtered.filter(product => product.price <= maxPrice);
     }
 
+    // Sorting
+    const sortBy = sortSelect.value;
+    if (sortBy === 'Цене: по возрастанию') {
+      filtered.sort((a, b) => a.price - b.price);
+    } else if (sortBy === 'Цене: по убыванию') {
+      filtered.sort((a, b) => b.price - a.price);
+    }
+
     renderProducts(filtered);
     updateResultsCount(filtered);
   }
@@ -147,8 +156,24 @@ document.addEventListener('DOMContentLoaded', () => {
     applyAllFilters();
   });
 
+  navMenuLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const category = link.dataset.category;
+      const categoryCheckbox = document.querySelector(`.category-checkbox[data-category="${category}"]`);
+      if (categoryCheckbox) {
+        // Uncheck all other checkboxes
+        document.querySelectorAll('.category-checkbox').forEach(cb => cb.checked = false);
+        // Check the corresponding checkbox
+        categoryCheckbox.checked = true;
+        applyAllFilters();
+      }
+    });
+  });
+
   // Event Listeners
   searchInput.addEventListener('input', applyAllFilters);
+  sortSelect.addEventListener('change', applyAllFilters);
   allFilters.forEach(filter => filter.addEventListener('change', applyAllFilters));
   applyPriceBtn.addEventListener('click', applyAllFilters);
 

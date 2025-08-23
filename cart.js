@@ -23,20 +23,27 @@ document.addEventListener('DOMContentLoaded', () => {
                     const product = products.find(p => p.id === cartItem.id);
                     if (product) {
                         total += product.price * cartItem.quantity;
-                        const cartItemElement = document.createElement('div');
+                        const cartItemElement = document.createElement('tr');
                         cartItemElement.classList.add('cart-item');
                         cartItemElement.innerHTML = `
-                            <img src="${product.image}" alt="${product.title}">
-                            <div class="cart-item-info">
-                                <h4>${product.title}</h4>
-                                <p>${product.price.toFixed(2)} ₽</p>
-                            </div>
-                            <div class="cart-item-quantity">
-                                <button class="quantity-btn" data-id="${product.id}" data-change="-1">-</button>
-                                <span>${cartItem.quantity}</span>
-                                <button class="quantity-btn" data-id="${product.id}" data-change="1">+</button>
-                            </div>
-                            <button class="remove-btn" data-id="${product.id}">Удалить</button>
+                            <td>
+                                <div class="cart-item-name">
+                                    <img src="${product.image}" alt="${product.title}">
+                                    <span>${product.title}</span>
+                                </div>
+                            </td>
+                            <td>${product.price.toFixed(2)} ₽</td>
+                            <td>
+                                <div class="cart-item-quantity">
+                                    <button class="quantity-btn" data-id="${product.id}" data-change="-1">-</button>
+                                    <span>${cartItem.quantity}</span>
+                                    <button class="quantity-btn" data-id="${product.id}" data-change="1">+</button>
+                                </div>
+                            </td>
+                            <td>${(product.price * cartItem.quantity).toFixed(2)} ₽</td>
+                            <td>
+                                <button class="remove-btn" data-id="${product.id}">Удалить</button>
+                            </td>
                         `;
                         cartItemsContainer.appendChild(cartItemElement);
                     }
@@ -69,4 +76,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     renderCart();
+
+    const clearCartBtn = document.getElementById('clear-cart-btn');
+
+    if (clearCartBtn) {
+        clearCartBtn.addEventListener('click', () => {
+            if (confirm('Вы уверены, что хотите очистить корзину?')) {
+                cart = [];
+                saveCart();
+                renderCart();
+            }
+        });
+    }
 });

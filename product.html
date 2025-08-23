@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Корзина</title>
+    <title>Информация о товаре</title>
     <link rel="icon" type="image/png" href="favicon.png">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
     <style>
@@ -102,55 +102,49 @@
         }
 
         .header-buttons a {
-            position: relative; /* For positioning the cart count */
             text-decoration: none;
             color: #333;
             margin-left: 20px;
             font-size: 20px;
         }
 
-        .cart-count {
-            position: absolute;
-            top: -5px;
-            right: -10px;
-            background-color: red;
-            color: white;
-            border-radius: 50%;
-            padding: 2px 6px;
-            font-size: 10px;
-            font-weight: bold;
-        }
-
-        /* Cart Page Styles */
-        #cart-container {
-            padding: 30px;
-        }
-        .cart-item {
+        /* Product Detail Page Styles */
+        .product-detail {
             display: flex;
-            align-items: center;
-            gap: 20px;
-            margin-bottom: 20px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #eee;
+            gap: 40px;
+            padding: 40px;
+            background-color: #fff;
+            margin: 30px;
+            border-radius: 8px;
         }
-        .cart-item img {
-            width: 80px;
-            height: 80px;
-            object-fit: contain;
+        .product-detail-image {
+            flex: 1;
         }
-        .cart-item-quantity {
-            display: flex;
-            align-items: center;
-            gap: 10px;
+        .product-detail-image img {
+            width: 100%;
+            border-radius: 8px;
         }
-        .quantity-btn, .remove-btn {
-            padding: 5px 10px;
-            cursor: pointer;
+        .product-detail-info {
+            flex: 2;
         }
-        #cart-total {
-            text-align: right;
-            font-size: 24px;
+        .product-detail-info h1 {
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+        .product-specs-detail {
             margin-top: 30px;
+        }
+        .product-specs-detail h3 {
+            margin-bottom: 15px;
+        }
+        .product-specs-detail ul {
+            list-style: none;
+            padding: 0;
+        }
+        .product-specs-detail li {
+            margin-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
         }
 
     </style>
@@ -160,7 +154,7 @@
         <!-- Header -->
         <header>
             <div class="header-container">
-                <a href="index.html" id="logo"><img src="./Foxnet Telecommunications Equipment Catalog_files/e33c7db5820c149dbda7fdb7c136cfa64906d31961a343245fc136ad8962640b.png" alt="Foxnet Logo" class="logo"></a>
+                <a href="index.html" id="logo"><img src="./PIC/e33c7db5820c149dbda7fdb7c136cfa64906d31961a343245fc136ad8962640b.png" alt="Foxnet Logo" class="logo"></a>
                 <ul class="nav-menu">
                     <li><a href="index.html#" data-category="Плоский DROP">Плоский<br>DROP</a></li>
                     <li><a href="index.html#" data-category="Круглый DROP">Круглый<br>DROP</a></li>
@@ -181,14 +175,18 @@
             </div>
         </header>
 
-        <div id="cart-container">
-            <h1>Ваша корзина</h1>
-            <div id="cart-items"></div>
-            <div id="cart-total"></div>
+        <div id="product-detail-container">
+            <!-- Product details will be loaded here by JavaScript -->
         </div>
 
     </div>
 
-    <script src="cart.js"></script>
+    <script src="product.js"></script>
+<script>
+        (function(w,d,u){
+                var s=d.createElement('script');s.async=true;s.src=u+'?'+(Date.now()/60000|0);
+                var h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h);
+        })(window,document,'https://bx.omikom.ru/upload/crm/site_button/loader_3_uhn8v5.js');
+</script>
 </body>
 </html>

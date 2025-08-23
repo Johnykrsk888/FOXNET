@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Информация о товаре</title>
+    <title>Корзина</title>
     <link rel="icon" type="image/png" href="favicon.png">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
     <style>
@@ -102,49 +102,84 @@
         }
 
         .header-buttons a {
+            position: relative; /* For positioning the cart count */
             text-decoration: none;
             color: #333;
             margin-left: 20px;
             font-size: 20px;
         }
 
-        /* Product Detail Page Styles */
-        .product-detail {
-            display: flex;
-            gap: 40px;
-            padding: 40px;
-            background-color: #fff;
-            margin: 30px;
-            border-radius: 8px;
+        .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -10px;
+            background-color: red;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 10px;
+            font-weight: bold;
         }
-        .product-detail-image {
-            flex: 1;
+
+        /* Cart Page Styles */
+        #cart-container {
+            padding: 30px;
         }
-        .product-detail-image img {
+        #cart-table {
             width: 100%;
-            border-radius: 8px;
+            border-collapse: collapse;
+            margin-top: 20px;
         }
-        .product-detail-info {
-            flex: 2;
+        #cart-table th, #cart-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+            vertical-align: middle;
         }
-        .product-detail-info h1 {
-            font-size: 28px;
-            margin-bottom: 15px;
+        #cart-table th {
+            background-color: #f2f2f2;
+            font-weight: bold;
         }
-        .product-specs-detail {
+        #cart-table img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            margin-right: 15px;
+        }
+        .cart-item-name {
+            display: flex;
+            align-items: center;
+        }
+        .cart-item-quantity {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .quantity-btn, .remove-btn {
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        #cart-total {
+            text-align: right;
+            font-size: 24px;
             margin-top: 30px;
         }
-        .product-specs-detail h3 {
-            margin-bottom: 15px;
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
         }
-        .product-specs-detail ul {
-            list-style: none;
-            padding: 0;
-        }
-        .product-specs-detail li {
-            margin-bottom: 10px;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 10px;
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
         }
 
     </style>
@@ -154,7 +189,7 @@
         <!-- Header -->
         <header>
             <div class="header-container">
-                <a href="index.html" id="logo"><img src="./Foxnet Telecommunications Equipment Catalog_files/e33c7db5820c149dbda7fdb7c136cfa64906d31961a343245fc136ad8962640b.png" alt="Foxnet Logo" class="logo"></a>
+                <a href="index.html" id="logo"><img src="./PIC/e33c7db5820c149dbda7fdb7c136cfa64906d31961a343245fc136ad8962640b.png" alt="Foxnet Logo" class="logo"></a>
                 <ul class="nav-menu">
                     <li><a href="index.html#" data-category="Плоский DROP">Плоский<br>DROP</a></li>
                     <li><a href="index.html#" data-category="Круглый DROP">Круглый<br>DROP</a></li>
@@ -175,13 +210,32 @@
             </div>
         </header>
 
-        <div id="product-detail-container">
-            <!-- Product details will be loaded here by JavaScript -->
+        <div id="cart-container">
+            <h1>Ваша корзина</h1>
+            <table id="cart-table">
+                <thead>
+                    <tr>
+                        <th>Товар</th>
+                        <th>Цена</th>
+                        <th>Количество</th>
+                        <th>Сумма</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="cart-items">
+                    <!-- Cart items will be populated by JavaScript -->
+                </tbody>
+            </table>
+            <div id="cart-total"></div>
+            <div id="cart-actions" style="display: flex; justify-content: space-between; margin-top: 20px;">
+                <a href="index.html" class="btn-secondary">Вернуться в каталог</a>
+                <button id="clear-cart-btn" class="btn-danger">Очистить корзину</button>
+            </div>
         </div>
 
     </div>
 
-    <script src="product.js"></script>
+    <script src="cart.js"></script>
 <script>
         (function(w,d,u){
                 var s=d.createElement('script');s.async=true;s.src=u+'?'+(Date.now()/60000|0);
