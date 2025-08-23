@@ -151,5 +151,22 @@
     "fiber_count": null,
     "application": "Внутренний",
     "brand": "Foxnet"
+  },
+  {
+    "id": 10,
+    "title": "Интеллектуальный светильник Foxnet с питанием по PoE",
+    "image": "./PIC/9cd6c8987056d73e9b6597dc0a7ad3fa4fbb6415b60dc82c0206167f147bab22.JPG",
+    "sku": "FN-LGT-POE1",
+    "category": "Активное оборудование",
+    "specs": [
+      { "label": "Питание", "value": "PoE (802.3af)" },
+      { "label": "Управление", "value": "Веб-интерфейс/SNMP" },
+      { "label": "Яркость", "value": "800 люмен" }
+    ],
+    "price": 99.99,
+    "cable_type": "CAT5e/CAT6",
+    "fiber_count": null,
+    "application": "Внутренний",
+    "brand": "Foxnet"
   }
 ]
