@@ -2,7 +2,7 @@
   {
     "id": 1,
     "title": "Одномодовый оптоволоконный кабель Foxnet - 12 волокон",
-    "image": "./PIC/odnomodovyj-optovolokonnyj-kabel-foxnet-12-volokon.jpg",
+    "image": "./PIC/odnomodovyj-optovolokonnyj-kabel-foxnet-12-volokon.webp",
     "sku": "FN-FOC-SM-12",
     "category": "Оптические компоненты",
     "specs": [
@@ -19,7 +19,7 @@
   {
     "id": 2,
     "title": "Коммутатор Foxnet Enterprise Gigabit - 24 порта",
-    "image": "./PIC/kommunator-foxnet-enterprise-gigabit-24-porta.jpg",
+    "image": "./PIC/kommunator-foxnet-enterprise-gigabit-24-porta.png",
     "sku": "FN-SW-24G",
     "category": "Активное оборудование",
     "specs": [
