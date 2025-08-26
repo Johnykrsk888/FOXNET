@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const resultsCount = document.querySelector('.results-count');
     const searchInput = document.getElementById('product-search-input');
     const sortSelect = document.querySelector('.sort-select');
+    const clearSearchBtn = document.getElementById('clear-search-btn');
 
     let allProducts = [];
 
@@ -47,6 +48,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const searchTerm = searchInput.value.toLowerCase();
         const sortValue = sortSelect.value;
 
+        // Show/hide clear button
+        if (clearSearchBtn) {
+            clearSearchBtn.style.display = searchTerm.length > 0 ? 'inline' : 'none';
+        }
+
         let displayedProducts = [...allProducts];
 
         if (searchTerm) {
@@ -67,8 +73,16 @@ document.addEventListener('DOMContentLoaded', () => {
         displayProducts(displayedProducts);
     }
 
+    // Event listeners
     searchInput.addEventListener('input', updateProductDisplay);
     sortSelect.addEventListener('change', updateProductDisplay);
+
+    if (clearSearchBtn) {
+        clearSearchBtn.addEventListener('click', () => {
+            searchInput.value = '';
+            updateProductDisplay();
+        });
+    }
 
     productGrid.addEventListener('click', (e) => {
         if (e.target.classList.contains('cart-btn')) {

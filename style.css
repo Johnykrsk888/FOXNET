@@ -284,7 +284,7 @@
 
         .product-search input {
             padding: 8px 15px;
-            padding-right: 40px;
+            padding-right: 60px; /* Make space for two icons */
             border: 1px solid #ddd;
             border-radius: 4px;
             width: 500px;
@@ -292,10 +292,18 @@
 
         .product-search i {
             position: absolute;
-            right: 15px;
             top: 50%;
             transform: translateY(-50%);
             color: #666;
+        }
+
+        .product-search .ri-search-line {
+            right: 15px;
+        }
+
+        #clear-search-btn {
+            right: 40px; /* Position to the left of the search icon */
+            cursor: pointer;
         }
 
         /* Product Grid Styles */
