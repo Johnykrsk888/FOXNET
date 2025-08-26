@@ -1,0 +1,516 @@
+@font-face {
+            font-family: 'AlibabaSans-Regular';
+            src: url('https://assets-persist.lovart.ai/agent-static-assets/AlibabaSans-Regular.otf') format('opentype');
+            font-weight: normal;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'AlibabaSans-Medium';
+            src: url('https://assets-persist.lovart.ai/agent-static-assets/AlibabaSans-Medium.otf') format('opentype');
+            font-weight: 500;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'AlibabaSans-Bold';
+            src: url('https://assets-persist.lovart.ai/agent-static-assets/Alibaba-PuHuiTi-Bold.otf') format('opentype');
+            font-weight: bold;
+            font-style: normal;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'AlibabaSans-Regular', sans-serif;
+            color: #333;
+            background-color: #f7f8fa;
+            line-height: 1.6;
+            width: 1440px;
+            margin: 0 auto;
+        }
+
+        .container {
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 15px 30px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+        }
+
+        .logo {
+            grid-column: 1;
+            justify-self: start;
+            height: 40px;
+        }
+
+        .nav-menu {
+            grid-column: 2;
+            justify-self: center;
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-menu li {
+            /* margin-left is removed */
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: #333;
+            font-family: 'AlibabaSans-Regular', sans-serif;
+            font-size: 14px;
+            transition: color 0.3s;
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        .nav-menu a:hover {
+            color: #FF6B00;
+        }
+
+        .header-actions {
+            grid-column: 3;
+            justify-self: end;
+            display: flex;
+            align-items: center;
+        }
+
+        .header-buttons a {
+            position: relative; /* For positioning the cart count */
+            text-decoration: none;
+            color: #333;
+            margin-left: 20px;
+            font-size: 20px;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -10px;
+            background-color: red;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 10px;
+            font-weight: bold;
+        }
+
+        /* Breadcrumb Styles */
+        .breadcrumb {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background-color: #fff;
+            border-bottom: 1px solid #eee;
+        }
+
+        .breadcrumb-left, .breadcrumb-right {
+            flex: 1;
+        }
+
+        .breadcrumb-center {
+            flex: 2;
+            display: flex;
+            justify-content: center;
+        }
+
+        .breadcrumb ul {
+            display: flex;
+            list-style: none;
+        }
+
+        .breadcrumb li {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .breadcrumb li:not(:last-child)::after {
+            content: "/";
+            margin: 0 10px;
+            color: #ccc;
+        }
+
+        .breadcrumb a {
+            text-decoration: none;
+            color: #666;
+        }
+
+        .breadcrumb a:hover {
+            color: #FF6B00;
+        }
+
+        .breadcrumb li:last-child {
+            color: #FF6B00;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            display: flex;
+            padding: 30px;
+            background-color: #f7f8fa;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 280px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+            margin-right: 30px;
+            position: fixed;
+            top: 85px;
+            max-height: calc(100vh - 100px);
+            overflow-y: auto;
+        }
+
+        .sidebar h3 {
+            font-family: 'AlibabaSans-Bold', sans-serif;
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .filter-section {
+            margin-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+        }
+
+        .filter-section:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .filter-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            font-family: 'AlibabaSans-Medium', sans-serif;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .filter-options {
+            list-style: none;
+        }
+
+        .filter-option {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .filter-checkbox {
+            margin-right: 10px;
+            width: 18px;
+            height: 18px;
+            accent-color: #FF6B00;
+        }
+
+        .filter-label {
+            font-size: 14px;
+            color: #555;
+        }
+
+        
+
+        .price-range {
+            display: flex;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .price-input {
+            width: 100px;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .price-separator {
+            margin: 0 10px;
+            color: #666;
+        }
+
+        .apply-btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #FF6B00;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-family: 'AlibabaSans-Medium', sans-serif;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: background-color 0.3s;
+        }
+
+        .apply-btn:hover {
+            background-color: #E05F00;
+        }
+
+        .controls-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .product-search {
+            position: relative;
+        }
+
+        .product-search input {
+            padding: 8px 15px;
+            padding-right: 40px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 500px;
+        }
+
+        .product-search i {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+        }
+
+        /* Product Grid Styles */
+        .product-section {
+            flex: 1;
+            margin-left: 310px;
+        }
+
+        .product-controls {
+            position: sticky;
+            top: 85px; /* Align with sidebar's top offset */
+            z-index: 99; /* Below header's z-index of 100 */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            background-color: #fff;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .results-count {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .sort-options {
+            display: flex;
+            align-items: center;
+        }
+
+        .sort-label {
+            font-size: 14px;
+            color: #666;
+            margin-right: 10px;
+            white-space: nowrap;
+        }
+
+        .sort-select {
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: 'AlibabaSans-Regular', sans-serif;
+            font-size: 14px;
+            color: #333;
+            background-color: #fff;
+        }
+
+        .product-grid-container {
+            /* height and overflow removed to use main scrollbar */
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .product-card {
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-card a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .product-image {
+            height: 120px;
+            background-color: #f5f5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .product-info {
+            padding: 15px;
+        }
+
+        .product-title {
+            font-family: 'AlibabaSans-Medium', sans-serif;
+            font-size: 13px;
+            margin-bottom: 10px;
+            color: #333;
+            height: 63px;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+        }
+
+        .product-sku {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 10px;
+        }
+
+        .product-specs {
+            margin-bottom: 15px;
+        }
+
+        .spec-item {
+            display: flex;
+            margin-bottom: 5px;
+            font-size: 12px;
+        }
+
+        .spec-label {
+            color: #666;
+            width: 100px;
+            flex-shrink: 0;
+        }
+
+        .spec-value {
+            color: #333;
+            font-family: 'AlibabaSans-Medium', sans-serif;
+        }
+
+        .product-price {
+            font-family: 'AlibabaSans-Bold', sans-serif;
+            font-size: 16px;
+            color: #FF6B00;
+            margin-bottom: 15px;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .cart-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            padding: 5px;
+            border-radius: 4px;
+            font-family: 'AlibabaSans-Medium', sans-serif;
+            font-size: 12px;
+            cursor: pointer;
+            text-align: center;
+            transition: background-color 0.3s;
+            background-color: #FF6B00;
+            color: white;
+            border: none;
+            width: 100%;
+        }
+
+        .cart-btn:hover {
+            background-color: #E05F00;
+        }
+
+        /* Override for product detail page button */
+        .product-detail-info .cart-btn {
+            width: auto;
+            flex: none;
+            padding-left: 30px;
+            padding-right: 30px;
+        }
+
+        /* Pagination Styles */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .pagination-item {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #ddd;
+            margin: 0 5px;
+            border-radius: 4px;
+            font-family: 'AlibabaSans-Medium', sans-serif;
+            font-size: 14px;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .pagination-item:hover {
+            border-color: #FF6B00;
+            color: #FF6B00;
+        }
+
+        .pagination-item.active {
+            background-color: #FF6B00;
+            border-color: #FF6B00;
+            color: white;
+        }
+
+        .pagination-arrow {
+            color: #666;
+        }
+
+        .pagination-arrow:hover {
+            color: #FF6B00;
+        }

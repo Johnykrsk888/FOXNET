@@ -1,48 +1,54 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const productDetailContainer = document.getElementById('product-detail-container');
-    const urlParams = new URLSearchParams(window.location.search);
-    const productId = parseInt(urlParams.get('id'));
+    const params = new URLSearchParams(window.location.search);
+    const productId = params.get('id');
+    const container = document.getElementById('product-detail-container');
 
-    if (isNaN(productId)) {
-        productDetailContainer.innerHTML = '<p>Товар не найден.</p>';
+    if (!productId) {
+        container.innerHTML = '<h1>Товар не найден</h1>';
         return;
     }
 
-    fetch('products.json')
-        .then(response => response.json())
-        .then(products => {
-            const product = products.find(p => p.id === productId);
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', `/api/product/${productId}`, true);
 
-            if (product) {
-                document.title = product.title; // Update the page title
-                const productHtml = `
-                    <div class="product-detail">
-                        <div class="product-detail-image">
-                            <img src="${product.image}" alt="${product.title}">
+    xhr.onload = function () {
+        if (xhr.status >= 200 && xhr.status < 400) {
+            const product = JSON.parse(xhr.responseText);
+            
+            // Create the HTML for the product details
+            const productHTML = `
+                <div class="product-detail">
+                    <div class="product-detail-image">
+                        <img src="PIC/9cd6c8987056d73e9b6597dc0a7ad3fa4fbb6415b60dc82c0206167f147bab22.JPG" alt="${product.title}">
+                    </div>
+                    <div class="product-detail-info">
+                        <h1>${product.title}</h1>
+                        <p class="sku">Арт: ${product.sku}</p>
+                        <p class="price">${product.price} ₽</p>
+                        <p class="stock">В наличии: ${product.quantity}</p>
+                        <div class="product-actions">
+                            <button class="cart-btn">В корзину</button>
                         </div>
-                        <div class="product-detail-info">
-                            <h1>${product.title}</h1>
-                            <div class="product-sku">Артикул: ${product.sku}</div>
-                            <div class="product-price">${product.price.toFixed(2)} ₽</div>
-                            <div class="product-actions">
-                                <div class="cart-btn">В корзину</div>
-                            </div>
-                            <div class="product-specs-detail">
-                                <h3>Характеристики</h3>
-                                <ul>
-                                    ${product.specs.map(spec => `<li><strong>${spec.label}:</strong> ${spec.value}</li>`).join('')}
-                                </ul>
-                            </div>
+                        <div class="product-specs-detail">
+                            <h3>Описание</h3>
+                            <p>${product.description}</p>
                         </div>
                     </div>
-                `;
-                productDetailContainer.innerHTML = productHtml;
-            } else {
-                productDetailContainer.innerHTML = '<p>Товар не найден.</p>';
-            }
-        })
-        .catch(error => {
-            console.error('Ошибка загрузки данных о товаре:', error);
-            productDetailContainer.innerHTML = '<p>Не удалось загрузить информацию о товаре.</p>';
-        });
+                </div>
+            `;
+            
+            container.innerHTML = productHTML;
+
+        } else {
+            console.error('Server returned an error');
+            container.innerHTML = '<h1>Ошибка загрузки товара</h1><p>Сервер вернул ошибку.</p>';
+        }
+    };
+
+    xhr.onerror = function () {
+        console.error('Connection error');
+        container.innerHTML = '<h1>Ошибка загрузки товара</h1><p>Ошибка соединения.</p>';
+    };
+
+    xhr.send();
 });
