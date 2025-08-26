@@ -151,5 +151,191 @@
     "fiber_count": null,
     "application": "Внутренний",
     "brand": "Foxnet"
+  },
+  {
+    "id": 10,
+    "title": "Интеллектуальный светильник Foxnet с питанием по PoE",
+    "image": "./PIC/9cd6c8987056d73e9b6597dc0a7ad3fa4fbb6415b60dc82c0206167f147bab22.JPG",
+    "sku": "FN-LGT-POE1",
+    "category": "Активное оборудование",
+    "specs": [
+      { "label": "Питание", "value": "PoE (802.3af)" },
+      { "label": "Управление", "value": "Веб-интерфейс/SNMP" },
+      { "label": "Яркость", "value": "800 люмен" }
+    ],
+    "price": 99.99,
+    "cable_type": "CAT5e/CAT6",
+    "fiber_count": null,
+    "application": "Внутренний",
+    "brand": "Foxnet"
+  },
+  {
+    "id": 11,
+    "title": "Кабель витая пара UTP 4 пары, категория 5e, для внутренней прокладки, 305м",
+    "image": "./PIC/9cd6c8987056d73e9b6597dc0a7ad3fa4fbb6415b60dc82c0206167f147bab22.JPG",
+    "sku": "FN-UTP-C5E-305",
+    "category": "UTP Кабель",
+    "specs": [
+      { "label": "Категория", "value": "CAT5e" },
+      { "label": "Экранирование", "value": "U/UTP" },
+      { "label": "Длина", "value": "305 м" }
+    ],
+    "price": 150.00,
+    "cable_type": "CAT5e",
+    "fiber_count": null,
+    "application": "Внутренний",
+    "brand": "Foxnet"
+  },
+  {
+    "id": 12,
+    "title": "Оптический патч-корд LC/UPC - LC/UPC, SM, 9/125, Duplex, 3м",
+    "image": "./PIC/9cd6c8987056d73e9b6597dc0a7ad3fa4fbb6415b60dc82c0206167f147bab22.JPG",
+    "sku": "FN-PC-LCLC-SM-3M",
+    "category": "Оптические компоненты",
+    "specs": [
+      { "label": "Тип", "value": "LC/UPC - LC/UPC" },
+      { "label": "Режим", "value": "Одномодовый" },
+      { "label": "Длина", "value": "3 м" }
+    ],
+    "price": 15.99,
+    "cable_type": "Оптоволокно",
+    "fiber_count": null,
+    "application": "Внутренний",
+    "brand": "Foxnet"
+  },
+  {
+    "id": 13,
+    "title": "PoE-инжектор Foxnet, 48V, 0.5A, 24W",
+    "image": "./PIC/9cd6c8987056d73e9b6597dc0a7ad3fa4fbb6415b60dc82c0206167f147bab22.JPG",
+    "sku": "FN-POE-48V",
+    "category": "Активное оборудование",
+    "specs": [
+      { "label": "Напряжение", "value": "48V" },
+      { "label": "Мощность", "value": "24W" },
+      { "label": "Скорость", "value": "10/100/1000 Мбит/с" }
+    ],
+    "price": 25.00,
+    "cable_type": null,
+    "fiber_count": null,
+    "application": "Внутренний",
+    "brand": "Foxnet"
+  },
+  {
+    "id": 14,
+    "title": "Оптическая розетка SC/UPC, одномодовая",
+    "image": "./PIC/9cd6c8987056d73e9b6597dc0a7ad3fa4fbb6415b60dc82c0206167f147bab22.JPG",
+    "sku": "FN-ORS-SCSM",
+    "category": "Оптические компоненты",
+    "specs": [
+      { "label": "Тип", "value": "SC/UPC" },
+      { "label": "Режим", "value": "Одномодовый" }
+    ],
+    "price": 5.99,
+    "cable_type": "Оптоволокно",
+    "fiber_count": null,
+    "application": "Внутренний",
+    "brand": "Foxnet"
+  },
+  {
+    "id": 15,
+    "title": "SFP-трансивер Foxnet, 1.25G, 1310nm, 20км, SM, LC",
+    "image": "./PIC/9cd6c8987056d73e9b6597dc0a7ad3fa4fbb6415b60dc82c0206167f147bab22.JPG",
+    "sku": "FN-SFP-1G-20KM",
+    "category": "Активное оборудование",
+    "specs": [
+      { "label": "Скорость", "value": "1.25 Гбит/с" },
+      { "label": "Длина волны", "value": "1310nm" },
+      { "label": "Расстояние", "value": "20 км" }
+    ],
+    "price": 49.99,
+    "cable_type": "Оптоволокно",
+    "fiber_count": null,
+    "application": "Внутренний",
+    "brand": "Foxnet"
+  },
+  {
+    "id": 16,
+    "title": "Напольный шкаф 19'' Foxnet, 42U, 600x800",
+    "image": "./PIC/9cd6c8987056d73e9b6597dc0a7ad3fa4fbb6415b60dc82c0206167f147bab22.JPG",
+    "sku": "FN-RACK-42U-68",
+    "category": "МУФТЫ И БОКСЫ",
+    "specs": [
+      { "label": "Тип", "value": "Напольный" },
+      { "label": "Юниты", "value": "42U" },
+      { "label": "Размер", "value": "600x800 мм" }
+    ],
+    "price": 499.99,
+    "cable_type": null,
+    "fiber_count": null,
+    "application": "Внутренний",
+    "brand": "Foxnet"
+  },
+  {
+    "id": 17,
+    "title": "Кабельный организатор 19'', 1U, с металлическими кольцами",
+    "image": "./PIC/9cd6c8987056d73e9b6597dc0a7ad3fa4fbb6415b60dc82c0206167f147bab22.JPG",
+    "sku": "FN-CM-1U-MR",
+    "category": "МУФТЫ И БОКСЫ",
+    "specs": [
+      { "label": "Тип", "value": "Организатор" },
+      { "label": "Юниты", "value": "1U" },
+      { "label": "Материал", "value": "Металл" }
+    ],
+    "price": 19.99,
+    "cable_type": null,
+    "fiber_count": null,
+    "application": "Внутренний",
+    "brand": "Foxnet"
+  },
+  {
+    "id": 18,
+    "title": "Неуправляемый коммутатор Foxnet, 8 портов 10/100 Мбит/с",
+    "image": "./PIC/9cd6c8987056d73e9b6597dc0a7ad3fa4fbb6415b60dc82c0206167f147bab22.JPG",
+    "sku": "FN-SW-8P-FE",
+    "category": "Активное оборудование",
+    "specs": [
+      { "label": "Порты", "value": "8 x RJ45" },
+      { "label": "Скорость", "value": "10/100 Мбит/с" },
+      { "label": "Управление", "value": "Неуправляемый" }
+    ],
+    "price": 29.99,
+    "cable_type": null,
+    "fiber_count": null,
+    "application": "Внутренний",
+    "brand": "Foxnet"
+  },
+  {
+    "id": 19,
+    "title": "FTP кабель витая пара, 4 пары, категория 6, для наружной прокладки, 305м",
+    "image": "./PIC/9cd6c8987056d73e9b6597dc0a7ad3fa4fbb6415b60dc82c0206167f147bab22.JPG",
+    "sku": "FN-FTP-C6-OUT-305",
+    "category": "UTP Кабель",
+    "specs": [
+      { "label": "Категория", "value": "CAT6" },
+      { "label": "Экранирование", "value": "F/UTP" },
+      { "label": "Применение", "value": "Наружный" }
+    ],
+    "price": 250.00,
+    "cable_type": "CAT6",
+    "fiber_count": null,
+    "application": "Наружный",
+    "brand": "Foxnet"
+  },
+  {
+    "id": 20,
+    "title": "Оптический пигтейл SC/UPC, SM, 9/125, 1.5м",
+    "image": "./PIC/9cd6c8987056d73e9b6597dc0a7ad3fa4fbb6415b60dc82c0206167f147bab22.JPG",
+    "sku": "FN-PT-SCSM-1.5M",
+    "category": "Оптические компоненты",
+    "specs": [
+      { "label": "Тип", "value": "SC/UPC" },
+      { "label": "Режим", "value": "Одномодовый" },
+      { "label": "Длина", "value": "1.5 м" }
+    ],
+    "price": 9.99,
+    "cable_type": "Оптоволокно",
+    "fiber_count": null,
+    "application": "Внутренний",
+    "brand": "Foxnet"
   }
 ]
