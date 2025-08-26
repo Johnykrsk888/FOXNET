@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let allProducts = [];
 
-    fetch('products.json')
+    fetch('/api/products')
         .then(response => response.json())
         .then(products => {
             allProducts = products;

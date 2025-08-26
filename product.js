@@ -2,26 +2,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const productDetails = document.getElementById('product-details');
     const productId = new URLSearchParams(window.location.search).get('id');
 
-    if (!productDetails) {
-        return console.error('ОШИБКА: Элемент #product-details не найден на странице.');
-    }
-
     if (!productId) {
         productDetails.innerHTML = '<p>Товар не найден.</p>';
         return;
     }
 
-    // Fetch all products from the static JSON file
-    fetch('products.json')
+    // Fetch the specific product details from the correct endpoint
+    fetch(`/api/product/${productId}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
             return response.json();
         })
-        .then(products => {
-            // Find the specific product by its ID
-            const product = products.find(p => p.id == productId);
+        .then(product => {
             if (product) {
                 displayProductDetails(product);
             } else {
@@ -55,6 +49,7 @@ function displayProductDetails(product) {
     // Add to cart event listener
     const cartBtn = productDetails.querySelector('.cart-btn');
     cartBtn.addEventListener('click', () => {
+        // Use the global addToCart function from cart.js
         addToCart(product);
     });
 }
