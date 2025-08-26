@@ -6,16 +6,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let allProducts = [];
 
-    // Fetch all products initially
     fetch('/api/products')
         .then(response => response.json())
         .then(products => {
             allProducts = products;
-            updateProductDisplay(); // Initial display
+            updateProductDisplay();
         })
         .catch(error => console.error('Error fetching products:', error));
 
-    // Function to display products
     function displayProducts(products) {
         productGrid.innerHTML = '';
         products.forEach(product => {
@@ -30,30 +28,27 @@ document.addEventListener('DOMContentLoaded', () => {
                         <h3 class="product-title">${product.title}</h3>
                         <p class="product-sku">Арт: ${product.sku}</p>
                         <p class="product-price">${product.price} ₽</p>
-                        <div class="product-actions">
-                            <button class="cart-btn">В корзину</button>
-                        </div>
                     </div>
                 </a>
+                <div class="product-actions">
+                    <button class="cart-btn" data-id="${product.id}">В корзину</button>
+                </div>
             `;
             productGrid.appendChild(productCard);
         });
         updateResultsCount(products.length);
     }
 
-    // Function to update results count
     function updateResultsCount(count) {
         resultsCount.textContent = `Показано ${count} из ${allProducts.length} товаров`;
     }
 
-    // Function to filter and sort products
     function updateProductDisplay() {
         const searchTerm = searchInput.value.toLowerCase();
         const sortValue = sortSelect.value;
 
-        let displayedProducts = [...allProducts]; // Create a copy to avoid mutating the original array
+        let displayedProducts = [...allProducts];
 
-        // Filter by search term
         if (searchTerm) {
             displayedProducts = displayedProducts.filter(product => 
                 (product.title && product.title.toLowerCase().includes(searchTerm)) ||
@@ -61,20 +56,27 @@ document.addEventListener('DOMContentLoaded', () => {
             );
         }
 
-        // Sort products
         if (sortValue === 'Цене: по возрастанию') {
             displayedProducts.sort((a, b) => parseFloat(String(a.price).replace(/\s/g, '')) - parseFloat(String(b.price).replace(/\s/g, '')));
         } else if (sortValue === 'Цене: по убыванию') {
             displayedProducts.sort((a, b) => parseFloat(String(b.price).replace(/\s/g, '')) - parseFloat(String(a.price).replace(/\s/g, '')));
-        } else { // 'Популярности' or default
-            // Sort by ID as a default
+        } else {
             displayedProducts.sort((a, b) => String(a.id).localeCompare(String(b.id)));
         }
 
         displayProducts(displayedProducts);
     }
 
-    // Event listeners
     searchInput.addEventListener('input', updateProductDisplay);
     sortSelect.addEventListener('change', updateProductDisplay);
+
+    productGrid.addEventListener('click', (e) => {
+        if (e.target.classList.contains('cart-btn')) {
+            const productId = e.target.dataset.id;
+            const product = allProducts.find(p => p.id == productId);
+            if (product) {
+                addToCart(product);
+            }
+        }
+    });
 });

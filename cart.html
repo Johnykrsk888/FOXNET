@@ -3,186 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FOXNET</title>
+    <title>Корзина - FOXNET</title>
     <link rel="icon" type="image/png" href="favicon.png">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
-    <style>
-        @font-face {
-            font-family: 'AlibabaSans-Regular';
-            src: url('https://assets-persist.lovart.ai/agent-static-assets/AlibabaSans-Regular.otf') format('opentype');
-            font-weight: normal;
-            font-style: normal;
-        }
-        @font-face {
-            font-family: 'AlibabaSans-Medium';
-            src: url('https://assets-persist.lovart.ai/agent-static-assets/AlibabaSans-Medium.otf') format('opentype');
-            font-weight: 500;
-            font-style: normal;
-        }
-        @font-face {
-            font-family: 'AlibabaSans-Bold';
-            src: url('https://assets-persist.lovart.ai/agent-static-assets/Alibaba-PuHuiTi-Bold.otf') format('opentype');
-            font-weight: bold;
-            font-style: normal;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'AlibabaSans-Regular', sans-serif;
-            color: #333;
-            background-color: #f7f8fa;
-            line-height: 1.6;
-            width: 1440px;
-            margin: 0 auto;
-        }
-
-        .container {
-            width: 100%;
-            margin: 0 auto;
-        }
-
-        /* Header Styles */
-        header {
-            background-color: #fff;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            padding: 15px 30px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .header-container {
-            display: grid;
-            grid-template-columns: 1fr auto 1fr;
-            align-items: center;
-        }
-
-        .logo {
-            grid-column: 1;
-            justify-self: start;
-            height: 40px;
-        }
-
-        .nav-menu {
-            grid-column: 2;
-            justify-self: center;
-            display: flex;
-            list-style: none;
-            gap: 30px;
-        }
-
-        .nav-menu li {
-            /* margin-left is removed */
-        }
-
-        .nav-menu a {
-            text-decoration: none;
-            color: #333;
-            font-family: 'AlibabaSans-Regular', sans-serif;
-            font-size: 14px;
-            transition: color 0.3s;
-            text-align: center;
-            line-height: 1.2;
-        }
-
-        .nav-menu a:hover {
-            color: #FF6B00;
-        }
-
-        .header-actions {
-            grid-column: 3;
-            justify-self: end;
-            display: flex;
-            align-items: center;
-        }
-
-        .header-buttons a {
-            position: relative; /* For positioning the cart count */
-            text-decoration: none;
-            color: #333;
-            margin-left: 20px;
-            font-size: 20px;
-        }
-
-        .cart-count {
-            position: absolute;
-            top: -5px;
-            right: -10px;
-            background-color: red;
-            color: white;
-            border-radius: 50%;
-            padding: 2px 6px;
-            font-size: 10px;
-            font-weight: bold;
-        }
-
-        /* Cart Page Styles */
-        #cart-container {
-            padding: 30px;
-        }
-        #cart-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        #cart-table th, #cart-table td {
-            border: 1px solid #ddd;
-            padding: 12px;
-            text-align: left;
-            vertical-align: middle;
-        }
-        #cart-table th {
-            background-color: #f2f2f2;
-            font-weight: bold;
-        }
-        #cart-table img {
-            width: 60px;
-            height: 60px;
-            object-fit: contain;
-            margin-right: 15px;
-        }
-        .cart-item-name {
-            display: flex;
-            align-items: center;
-        }
-        .cart-item-quantity {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .quantity-btn, .remove-btn {
-            padding: 5px 10px;
-            cursor: pointer;
-        }
-        #cart-total {
-            text-align: right;
-            font-size: 24px;
-            margin-top: 30px;
-        }
-        .btn-secondary {
-            background-color: #6c757d;
-            color: white;
-            padding: 10px 20px;
-            text-decoration: none;
-            border-radius: 5px;
-            border: none;
-            cursor: pointer;
-        }
-        .btn-danger {
-            background-color: #dc3545;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
-            border: none;
-            cursor: pointer;
-        }
-
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
@@ -191,20 +15,12 @@
             <div class="header-container">
                 <a href="index.html" id="logo"><img src="./PIC/e33c7db5820c149dbda7fdb7c136cfa64906d31961a343245fc136ad8962640b.png" alt="Foxnet Logo" class="logo"></a>
                 <ul class="nav-menu">
-                    <li><a href="index.html#" data-category="Плоский DROP">Плоский<br>DROP</a></li>
-                    <li><a href="index.html#" data-category="Круглый DROP">Круглый<br>DROP</a></li>
-                    <li><a href="index.html#" data-category="ASU Кабель">ASU<br>Кабель</a></li>
-                    <li><a href="index.html#" data-category="ADSS Кабель">ADSS<br>Кабель</a></li>
-                    <li><a href="index.html#" data-category="МУФТЫ И БОКСЫ">МУФТЫ И<br>БОКСЫ</a></li>
-                    <li><a href="index.html#" data-category="UTP Кабель">UTP<br>Кабель</a></li>
-                    <li><a href="index.html#" data-category="Компоненты СКС">Компоненты<br>СКС</a></li>
-                    <li><a href="index.html#" data-category="Активное оборудование">Активное<br>оборудование</a></li>
-                    <li><a href="index.html#" data-category="Оптические компоненты">Оптические<br>компоненты</a></li>
+                    <li><a href="index.html#">Каталог</a></li>
                 </ul>
                 <div class="header-actions">
                     <div class="header-buttons">
                         <a href="#"><i class="ri-user-line"></i></a>
-                        <a href="cart.html"><i class="ri-shopping-cart-2-line"></i></a>
+                        <a href="cart.html" class="cart-link"><i class="ri-shopping-cart-2-line"></i><span class="cart-counter"></span></a>
                     </div>
                 </div>
             </div>
@@ -226,17 +42,19 @@
                     <!-- Cart items will be populated by JavaScript -->
                 </tbody>
             </table>
-            <div id="cart-total"></div>
-            <div id="cart-actions" style="display: flex; justify-content: space-between; margin-top: 20px;">
-                <a href="index.html" class="btn-secondary">Вернуться в каталог</a>
-                <button id="clear-cart-btn" class="btn-danger">Очистить корзину</button>
+            <div class="cart-footer">
+                <div id="cart-total"></div>
+                <div id="cart-actions">
+                    <a href="index.html" class="cart-action-btn">Вернуться в каталог</a>
+                    <button id="clear-cart-btn" class="cart-action-btn cart-action-btn--secondary">Очистить корзину</button>
+                </div>
             </div>
         </div>
 
     </div>
 
-    <script src="cart.js"></script>
-<script>
+    <script src="cart.js" defer></script>
+    <script>
         (function(w,d,u){
                 var s=d.createElement('script');s.async=true;s.src=u+'?'+(Date.now()/60000|0);
                 var h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h);

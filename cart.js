@@ -1,91 +1,145 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const cartItemsContainer = document.getElementById('cart-items');
-    const cartTotalContainer = document.getElementById('cart-total');
+// Function to add a product to the cart
+function addToCart(product) {
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const existingProductIndex = cart.findIndex(item => item.id === product.id);
 
-    function saveCart() {
-        localStorage.setItem('cart', JSON.stringify(cart));
+    if (existingProductIndex > -1) {
+        cart[existingProductIndex].quantity += 1;
+    } else {
+        cart.push({ ...product, quantity: 1 });
     }
 
-    function renderCart() {
-        cartItemsContainer.innerHTML = '';
-        if (cart.length === 0) {
-            cartItemsContainer.innerHTML = '<p>Ваша корзина пуста.</p>';
-            cartTotalContainer.innerHTML = '';
-            return;
-        }
+    localStorage.setItem('cart', JSON.stringify(cart));
+    updateCartCounter();
+}
 
-        fetch('products.json')
-            .then(response => response.json())
-            .then(products => {
-                let total = 0;
-                cart.forEach(cartItem => {
-                    const product = products.find(p => p.id === cartItem.id);
-                    if (product) {
-                        total += product.price * cartItem.quantity;
-                        const cartItemElement = document.createElement('tr');
-                        cartItemElement.classList.add('cart-item');
-                        cartItemElement.innerHTML = `
-                            <td>
-                                <div class="cart-item-name">
-                                    <img src="${product.image}" alt="${product.title}">
-                                    <span>${product.title}</span>
-                                </div>
-                            </td>
-                            <td>${product.price.toFixed(2)} ₽</td>
-                            <td>
-                                <div class="cart-item-quantity">
-                                    <button class="quantity-btn" data-id="${product.id}" data-change="-1">-</button>
-                                    <span>${cartItem.quantity}</span>
-                                    <button class="quantity-btn" data-id="${product.id}" data-change="1">+</button>
-                                </div>
-                            </td>
-                            <td>${(product.price * cartItem.quantity).toFixed(2)} ₽</td>
-                            <td>
-                                <button class="remove-btn" data-id="${product.id}">Удалить</button>
-                            </td>
-                        `;
-                        cartItemsContainer.appendChild(cartItemElement);
-                    }
-                });
+// Function to update the cart counter in the header
+function updateCartCounter() {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+    const counterElement = document.querySelector('.cart-counter');
+    if (counterElement) {
+        counterElement.textContent = totalItems;
+        counterElement.style.display = totalItems > 0 ? 'block' : 'none';
+    }
+}
 
-                cartTotalContainer.innerHTML = `<h3>Итого: ${total.toFixed(2)} ₽</h3>`;
-            });
+// Functions for the cart page (cart.html)
+function displayCartItems() {
+    const cartItemsContainer = document.querySelector('#cart-items');
+    const cartFooter = document.querySelector('.cart-footer');
+    const cartTotalEl = document.getElementById('cart-total');
+
+    if (!cartItemsContainer) return;
+
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    cartItemsContainer.innerHTML = '';
+
+    // Always show the footer
+    if(cartFooter) cartFooter.style.display = 'flex';
+
+    if (cart.length === 0) {
+        const row = cartItemsContainer.insertRow();
+        const cell = row.insertCell();
+        cell.colSpan = 5;
+        cell.textContent = 'Ваша корзина пуста.';
+        if(cartTotalEl) cartTotalEl.innerHTML = 'Итого: 0.00 ₽'; // Show zero total
+        return;
     }
 
-    cartItemsContainer.addEventListener('click', (e) => {
-        const target = e.target;
-        const productId = parseInt(target.dataset.id);
+    let grandTotal = 0;
 
-        if (target.classList.contains('quantity-btn')) {
-            const change = parseInt(target.dataset.change);
-            const item = cart.find(item => item.id === productId);
-            if (item) {
-                item.quantity += change;
-                if (item.quantity <= 0) {
-                    cart = cart.filter(item => item.id !== productId);
-                }
-                saveCart();
-                renderCart();
-            }
-        } else if (target.classList.contains('remove-btn')) {
-            cart = cart.filter(item => item.id !== productId);
-            saveCart();
-            renderCart();
-        }
+    cart.forEach(item => {
+        const itemPrice = parseFloat(String(item.price).replace(/\s/g, ''));
+        const itemTotal = itemPrice * item.quantity;
+        grandTotal += itemTotal;
+
+        const row = cartItemsContainer.insertRow();
+        row.innerHTML = `
+            <td>
+                <div class="cart-item-name">
+                    <img src="PIC/9cd6c8987056d73e9b6597dc0a7ad3fa4fbb6415b60dc82c0206167f147bab22.JPG" alt="${item.title}">
+                    <span>${item.title}</span>
+                </div>
+            </td>
+            <td>${item.price} ₽</td>
+            <td>
+                <div class="cart-item-quantity">
+                    <button class="quantity-btn" data-id="${item.id}" data-change="-1">-</button>
+                    <span>${item.quantity}</span>
+                    <button class="quantity-btn" data-id="${item.id}" data-change="1">+</button>
+                </div>
+            </td>
+            <td>${itemTotal.toFixed(2)} ₽</td>
+            <td>
+                <button class="remove-btn" data-id="${item.id}">Удалить</button>
+            </td>
+        `;
     });
 
-    renderCart();
+    if (cartTotalEl) {
+        cartTotalEl.textContent = `Итого: ${grandTotal.toFixed(2)} ₽`;
+    }
+
+    addCartPageEventListeners();
+}
+
+function addCartPageEventListeners() {
+    document.querySelectorAll('.quantity-btn').forEach(button => {
+        button.addEventListener('click', (e) => {
+            const productId = e.target.dataset.id;
+            const change = parseInt(e.target.dataset.change, 10);
+            updateCartItemQuantity(productId, change);
+        });
+    });
+
+    document.querySelectorAll('.remove-btn').forEach(button => {
+        button.addEventListener('click', (e) => {
+            const productId = e.target.dataset.id;
+            removeCartItem(productId);
+        });
+    });
 
     const clearCartBtn = document.getElementById('clear-cart-btn');
+    if(clearCartBtn) {
+        clearCartBtn.addEventListener('click', clearCart);
+    }
+}
 
-    if (clearCartBtn) {
-        clearCartBtn.addEventListener('click', () => {
-            if (confirm('Вы уверены, что хотите очистить корзину?')) {
-                cart = [];
-                saveCart();
-                renderCart();
-            }
-        });
+function updateCartItemQuantity(productId, change) {
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const itemIndex = cart.findIndex(item => item.id === productId);
+
+    if (itemIndex > -1) {
+        cart[itemIndex].quantity += change;
+        if (cart[itemIndex].quantity <= 0) {
+            cart.splice(itemIndex, 1);
+        }
+    }
+
+    localStorage.setItem('cart', JSON.stringify(cart));
+    displayCartItems();
+    updateCartCounter();
+}
+
+function removeCartItem(productId) {
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    cart = cart.filter(item => item.id !== productId);
+    localStorage.setItem('cart', JSON.stringify(cart));
+    displayCartItems();
+    updateCartCounter();
+}
+
+function clearCart() {
+    localStorage.removeItem('cart');
+    displayCartItems();
+    updateCartCounter();
+}
+
+// Initial calls when the script loads
+document.addEventListener('DOMContentLoaded', () => {
+    updateCartCounter();
+    if (window.location.pathname.includes('cart.html')) {
+        displayCartItems();
     }
 });

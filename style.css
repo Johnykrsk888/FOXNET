@@ -466,7 +466,7 @@
         }
 
         /* Override for product detail page button */
-        .product-detail-info .cart-btn {
+        .product-info-main .cart-btn {
             width: auto;
             flex: none;
             padding-left: 30px;
@@ -514,3 +514,170 @@
         .pagination-arrow:hover {
             color: #FF6B00;
         }
+
+/* Styles for the cart counter */
+.cart-link {
+    position: relative;
+    display: inline-block;
+}
+
+.cart-counter {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: #FF6B00;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 10px;
+    font-weight: bold;
+    line-height: 1;
+    min-width: 16px;
+    text-align: center;
+    display: none; /* Hidden by default, shown by JS */
+}
+
+/* Product Detail Page Layout */
+#product-details {
+    display: flex;
+    gap: 40px;
+    padding: 40px;
+    background-color: #fff;
+    margin: 30px;
+    border-radius: 8px;
+}
+.product-image-large {
+    flex: 1;
+}
+.product-info-main {
+    flex: 2;
+}
+
+/* More specific styles for Product Detail Page */
+.product-info-main h1 {
+    font-size: 28px;
+    margin-bottom: 15px;
+    font-family: 'AlibabaSans-Bold', sans-serif;
+}
+.product-info-main .product-sku-single {
+    font-size: 14px;
+    color: #888;
+    margin-bottom: 10px;
+}
+.product-info-main .product-price-single {
+    font-size: 24px;
+    color: #FF6B00;
+    font-family: 'AlibabaSans-Bold', sans-serif;
+    margin-bottom: 15px;
+}
+.product-info-main .product-quantity {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+.product-info-main .product-description {
+    margin-top: 20px;
+    margin-bottom: 30px;
+    line-height: 1.7;
+    color: #555;
+}
+.product-info-main .cart-btn {
+    padding: 12px 30px;
+    font-size: 16px;
+}
+
+/* Cart Page Styles */
+#cart-container {
+    padding: 30px;
+}
+#cart-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+#cart-table th, #cart-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+    vertical-align: middle;
+}
+#cart-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+#cart-table img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    margin-right: 15px;
+}
+.cart-item-name {
+    display: flex;
+    align-items: center;
+}
+.cart-item-quantity {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.quantity-btn, .remove-btn {
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+/* Cart Footer and Actions */
+.cart-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+#cart-total {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+#cart-actions {
+    display: flex;
+    gap: 15px;
+}
+
+.cart-action-btn {
+    display: inline-block;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-family: 'AlibabaSans-Medium', sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+    border: 1px solid transparent;
+}
+
+.cart-action-btn {
+    background-color: #FF6B00;
+    color: white;
+    border-color: #FF6B00;
+}
+
+.cart-action-btn:hover {
+    background-color: #E05F00;
+    border-color: #E05F00;
+}
+
+.cart-action-btn--secondary {
+    background-color: transparent;
+    color: #555;
+    border-color: #ccc;
+}
+
+.cart-action-btn--secondary:hover {
+    background-color: #f0f0f0;
+    border-color: #aaa;
+    color: #333;
+}
