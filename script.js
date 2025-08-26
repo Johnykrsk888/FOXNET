@@ -28,7 +28,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="product-info">
                         <h3 class="product-title">${product.title}</h3>
                         <p class="product-sku">Арт: ${product.sku}</p>
-                        <p class="product-price">${product.price} ₽</p>
+                        <div class="product-meta">
+                            <p class="product-price">${product.price} ₽</p>
+                            <span class="product-quantity">В наличии: ${product.quantity}</span>
+                        </div>
                     </div>
                 </a>
                 <div class="product-actions">
