@@ -1,30 +1,65 @@
-name: Deploy reg.ru
+name: Debug Deploy
 
 on:
-  push:
-    branches: [main]
+  workflow_dispatch:  # Запуск вручную
 
 jobs:
-  deploy:
+  debug-deploy:
     runs-on: ubuntu-latest
+
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Install sshpass
-      run: sudo apt-get install -y sshpass
+    - name: Checkout code
+      uses: actions/checkout@v4
 
-    - name: Deploy all files
+    - name: Show all environment variables
       run: |
-        sshpass -p "${{ secrets.SSH_PASSWORD }}" \
-          scp -r -o StrictHostKeyChecking=no \
-          ./* root@89.111.155.196:/var/www/fox-net.site/
+        echo "=== ENVIRONMENT VARIABLES ==="
+        env
+        echo "=== SECRETS AVAILABLE ==="
+        echo "SSH_PASSWORD length: ${#secrets.SSH_PASSWORD}}"
+        echo "SSH_PASSWORD value: '${secrets.SSH_PASSWORD}}'"
+        echo "=== CURRENT DIRECTORY ==="
+        pwd
+        ls -la
 
-    - name: Fix permissions and reload
+    - name: Install sshpass with debug
       run: |
+        echo "Installing sshpass..."
+        sudo apt-get update
+        sudo apt-get install -y sshpass
+        which sshpass
+        sshpass -V
+
+    - name: Debug SSH connection step-by-step
+      run: |
+        echo "=== STEP 1: Testing raw password ==="
+        # Тест с прямым паролем
+        sshpass -p "uqFJSxVqJklhMHuC" \
+          ssh -o StrictHostKeyChecking=no -v \
+          root@89.111.155.196 "echo 'Raw password test'" || echo "Raw password failed"
+        
+        echo "=== STEP 2: Testing secret password ==="
+        # Тест с секретом
         sshpass -p "${{ secrets.SSH_PASSWORD }}" \
-          ssh -o StrictHostKeyChecking=no \
-          root@89.111.155.196 "
-            chown -R www-data:www-data /var/www/fox-net.site/
-            chmod -R 755 /var/www/fox-net.site/
-            systemctl reload nginx
-            echo '🚀 Deployment completed!'
+          ssh -o StrictHostKeyChecking=no -v \
+          root@89.111.155.196 "echo 'Secret password test'" || echo "Secret password failed"
+        
+        echo "=== STEP 3: Testing connection without password ==="
+        # Тест без пароля
+        ssh -o StrictHostKeyChecking=no -v \
+          root@89.111.155.196 "echo 'No password test'" || echo "No password failed"
+
+    - name: Check network connectivity
+      run: |
+        echo "=== NETWORK CHECKS ==="
+        ping -c 3 89.111.155.196 || echo "Ping failed"
+        nc -zv 89.111.155.196 22 || echo "Port 22 check failed"
+        telnet 89.111.155.196 22 || echo "Telnet failed"
+
+    - name: Final debug info
+      run: |
+        echo "=== FINAL DEBUG ==="
+        echo "Workflow ID: ${{ github.run_id }}"
+        echo "Runner OS: ${{ runner.os }}"
+        echo "Secret names available:"
+        echo "SSH_PASSWORD: ${{ toJSON(secrets.SSH_PASSWORD) != '' }}"
