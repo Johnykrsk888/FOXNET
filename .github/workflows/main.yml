@@ -3,7 +3,6 @@ name: Deploy to VPS
 on:
   push:
     branches: [main]
-  workflow_dispatch:
 
 jobs:
   deploy:
@@ -13,38 +12,36 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Deploy to VPS
-      uses: appleboy/ssh-action@v1.0.0
-      with:
-        host: ${{ secrets.SERVER_IP }}
-        username: root
-        password: ${{ secrets.SERVER_PASSWORD }}
-        port: 22
-        script: |
-          # Обновляем систему и устанавливаем git если нужно
-          apt update && apt install -y git
+    - name: Setup SSH
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
+
+    - name: Deploy via rsync
+      run: |
+        # Копируем файлы на сервер
+        rsync -avz --delete \
+          -e "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no" \
+          --exclude='.git' \
+          --exclude='.github' \
+          --exclude='node_modules' \
+          ./ root@${{ secrets.SERVER_IP }}:/var/www/fox-net.site/
+
+    - name: Set permissions and reload
+      run: |
+        ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no root@${{ secrets.SERVER_IP }} << 'EOF'
+          # Устанавливаем правильные права
+          chown -R www-data:www-data /var/www/fox-net.site/
+          chmod -R 755 /var/www/fox-net.site/
           
-          # Создаем директорию если не существует
-          mkdir -p /var/www/fox-net.site
-          cd /var/www/fox-net.site
-          
-          # Инициализируем git repo если нужно
-          if [ ! -d ".git" ]; then
-            git init
-            git remote add origin https://github.com/${{ github.repository }}.git
-          fi
-          
-          # Получаем последние изменения
-          git fetch --all
-          git reset --hard origin/main
-          git pull origin main
-          
-          # Устанавливаем права
-          chown -R www-data:www-data /var/www/fox-net.site
-          chmod -R 755 /var/www/fox-net.site
-          
-          # Перезагружаем nginx
+          # Проверяем конфигурацию nginx и перезагружаем
           nginx -t && systemctl reload nginx
           
-          echo "✅ Deployment completed successfully!"
-          echo "🌐 Site available at: http://${{ secrets.SERVER_IP }}"
+          # Проверяем что файлы скопировались
+          echo "✅ Files in /var/www/fox-net.site/:"
+          ls -la /var/www/fox-net.site/
+          
+          echo "🚀 Deployment completed successfully!"
+        EOF
