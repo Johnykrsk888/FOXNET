@@ -1,34 +1,19 @@
-name: Deploy to VPS on reg.ru
+
+name: Test Connection
 
 on:
-  push:
-    branches: [main]
+  workflow_dispatch:
 
 jobs:
-  deploy:
+  test:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
-    - name: Install sshpass
-      run: sudo apt-get update && sudo apt-get install -y sshpass
-
-    - name: Deploy files
+    - name: Test SSH password
       run: |
-        # Копируем файлы на сервер
-        sshpass -p "${{ secrets.SSH_PASSWORD }}" \
-          scp -o StrictHostKeyChecking=no -r \
-          ./* root@89.111.155.196:/var/www/fox-net.site/
-
-    - name: Set permissions
-      run: |
-        sshpass -p "${{ secrets.SSH_PASSWORD }}" \
+        sudo apt-get install -y sshpass
+        timeout 10s \
+          sshpass -p "${{ secrets.SSH_PASSWORD }}" \
           ssh -o StrictHostKeyChecking=no \
-          root@89.111.155.196 "
-            chown -R www-data:www-data /var/www/fox-net.site/
-            chmod -R 755 /var/www/fox-net.site/
-            systemctl reload nginx
-            echo '✅ Deployment completed!'
-          "
+          root@89.111.155.196 "echo 'Success!'" \
+          && echo "✅ Connection works!" \
+          || echo "❌ Connection failed"
