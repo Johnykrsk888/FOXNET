@@ -12,31 +12,18 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Install sshpass for password authentication
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y sshpass
+    - name: Install sshpass
+      run: sudo apt-get install -y sshpass
 
-    - name: Deploy files using password
+    - name: Deploy files
       run: |
-        # Копируем файлы на сервер используя пароль
-        sshpass -p '${{ secrets.SSH_PASSWORD }}' \
-          scp -o StrictHostKeyChecking=no -r \
-          --exclude='.git' \
-          --exclude='.github' \
-          ./* root@89.111.155.196:/var/www/fox-net.site/
+        # Копируем файлы
+        sshpass -p "${{ secrets.SSH_PASSWORD }}" scp -r -o StrictHostKeyChecking=no ./* root@89.111.155.196:/var/www/fox-net.site/
 
-    - name: Set permissions and reload
+    - name: Fix permissions
       run: |
-        sshpass -p '${{ secrets.SSH_PASSWORD }}' \
-          ssh -o StrictHostKeyChecking=no root@89.111.155.196 << 'EOF'
-          # Устанавливаем права
+        sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no root@89.111.155.196 "
           chown -R www-data:www-data /var/www/fox-net.site/
           chmod -R 755 /var/www/fox-net.site/
-          
-          # Перезагружаем nginx
-          nginx -t && systemctl reload nginx
-          
-          echo "✅ Deployment completed successfully!"
-          echo "🌐 Site available at: http://89.111.155.196"
-        EOF
+          systemctl reload nginx
+        "
