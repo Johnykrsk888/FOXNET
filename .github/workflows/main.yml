@@ -1,8 +1,9 @@
-name: Deploy to my VPS Hosting
+name: Deploy to VPS
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -12,13 +13,38 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Deploy to Server
+    - name: Deploy to VPS
       uses: appleboy/ssh-action@v1.0.0
       with:
         host: ${{ secrets.SERVER_IP }}
         username: root
         password: ${{ secrets.SERVER_PASSWORD }}
+        port: 22
         script: |
+          # Обновляем систему и устанавливаем git если нужно
+          apt update && apt install -y git
+          
+          # Создаем директорию если не существует
+          mkdir -p /var/www/fox-net.site
           cd /var/www/fox-net.site
+          
+          # Инициализируем git repo если нужно
+          if [ ! -d ".git" ]; then
+            git init
+            git remote add origin https://github.com/${{ github.repository }}.git
+          fi
+          
+          # Получаем последние изменения
+          git fetch --all
+          git reset --hard origin/main
           git pull origin main
-          echo "Deployment completed successfully!"
+          
+          # Устанавливаем права
+          chown -R www-data:www-data /var/www/fox-net.site
+          chmod -R 755 /var/www/fox-net.site
+          
+          # Перезагружаем nginx
+          nginx -t && systemctl reload nginx
+          
+          echo "✅ Deployment completed successfully!"
+          echo "🌐 Site available at: http://${{ secrets.SERVER_IP }}"
