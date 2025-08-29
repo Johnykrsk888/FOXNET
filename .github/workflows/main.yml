@@ -1,4 +1,4 @@
-name: Deploy to Reg.ru Hosting
+name: Deploy to my VPS Hosting
 
 on:
   push:
@@ -16,9 +16,9 @@ jobs:
       uses: appleboy/ssh-action@v1.0.0
       with:
         host: ${{ secrets.SERVER_IP }}
-        username: u3236417
+        username: root
         password: ${{ secrets.SERVER_PASSWORD }}
         script: |
-          cd /var/www/u3236417/data/www/fox-net.site
+          cd /var/www/fox-net.site
           git pull origin main
           echo "Deployment completed successfully!"
