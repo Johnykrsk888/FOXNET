@@ -12,36 +12,11 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Setup SSH
+    - name: Deploy with SCP (no SSH keyscan)
       run: |
         mkdir -p ~/.ssh
         echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
-        ssh-keyscan ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
-
-    - name: Deploy via rsync
-      run: |
-        # Копируем файлы на сервер
-        rsync -avz --delete \
-          -e "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no" \
-          --exclude='.git' \
-          --exclude='.github' \
-          --exclude='node_modules' \
-          ./ root@${{ secrets.SERVER_IP }}:/var/www/fox-net.site/
-
-    - name: Set permissions and reload
-      run: |
-        ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no root@${{ secrets.SERVER_IP }} << 'EOF'
-          # Устанавливаем правильные права
-          chown -R www-data:www-data /var/www/fox-net.site/
-          chmod -R 755 /var/www/fox-net.site/
-          
-          # Проверяем конфигурацию nginx и перезагружаем
-          nginx -t && systemctl reload nginx
-          
-          # Проверяем что файлы скопировались
-          echo "✅ Files in /var/www/fox-net.site/:"
-          ls -la /var/www/fox-net.site/
-          
-          echo "🚀 Deployment completed successfully!"
-        EOF
+        
+        # Пропускаем проверку хоста
+        scp -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no -r ./* root@89.111.155.196:/var/www/fox-net.site/
