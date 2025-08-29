@@ -15,18 +15,11 @@ jobs:
     - name: Install sshpass
       run: sudo apt-get update && sudo apt-get install -y sshpass
 
-    - name: Check server availability
-      run: |
-        echo "Проверяем доступность сервера ${{ secrets.SERVER_IP }}..."
-        ping -c 3 ${{ secrets.SERVER_IP }} || echo "Сервер не отвечает на ping"
-        nc -zv -w 5 ${{ secrets.SERVER_IP }} 22 && echo "Порт 22 открыт" || echo "Порт 22 недоступен"
-
     - name: Deploy to Server
       run: |
-        echo "🚀 Подключаемся к серверу..."
-        sshpass -p "${{ secrets.SERVER_PASSWORD }}" ssh -o StrictHostKeyChecking=no -o ConnectTimeout=10 -T root@${{ secrets.SERVER_IP }} << 'EOF'
+        echo "🚀 Подключаемся к серверу ${{ secrets.SERVER_IP }}..."
+        sshpass -p "${{ secrets.SERVER_PASSWORD }}" ssh -o StrictHostKeyChecking=no -o ConnectTimeout=30 root@${{ secrets.SERVER_IP }} "
           cd /var/www/fox-net.site/
           git pull origin main
           sudo systemctl restart nginx
-          echo "✅ Деплой завершен успешно!"
-        EOF
+          echo '✅ Деплой завершен успешно!'
