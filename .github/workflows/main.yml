@@ -1,5 +1,5 @@
 name: Deploy reg.ru
-  uses: appleboy/ssh-action@v1.0.0
+uses: appleboy/ssh-action@v1.0.0
   with:
     host: ${{ secrets.SERVER_IP }}
     username: root
