@@ -18,8 +18,4 @@ jobs:
     - name: Deploy to Server
       run: |
         echo "🚀 Подключаемся к серверу ${{ secrets.SERVER_IP }}..."
-        sshpass -p "${{ secrets.SERVER_PASSWORD }}" ssh -o StrictHostKeyChecking=no -o ConnectTimeout=30 root@${{ secrets.SERVER_IP }} "
-          cd /var/www/fox-net.site/
-          git pull origin main
-          sudo systemctl restart nginx
-          echo '✅ Деплой завершен успешно!'
+        sshpass -p "${{ secrets.SERVER_PASSWORD }}" ssh -o StrictHostKeyChecking=no -o ConnectTimeout=30 root@${{ secrets.SERVER_IP }} "cd /var/www/fox-net.site/ && git pull origin main && sudo systemctl restart nginx && echo '✅ Деплой завершен успешно!'"
