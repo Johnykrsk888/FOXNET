@@ -1,21 +1,44 @@
-name: Deploy to Reg.ru Server
+name: Test Server Connection
 
-on:
-  push:
-    branches: [ main ]
+on: [workflow_dispatch]
 
 jobs:
-  deploy:
+  test:
     runs-on: ubuntu-latest
-
+    
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
-    - name: Install sshpass
-      run: sudo apt-get update && sudo apt-get install -y sshpass
-
-    - name: Deploy to Server
+    - name: Install tools
+      run: sudo apt-get update && sudo apt-get install -y sshpass nc dnsutils
+      
+    - name: Network Diagnostic
       run: |
-        echo "🚀 Подключаемся к серверу ${{ secrets.SERVER_IP }}..."
-        sshpass -p "${{ secrets.SERVER_PASSWORD }}" ssh -o StrictHostKeyChecking=no -o ConnectTimeout=30 root@${{ secrets.SERVER_IP }} "cd /var/www/fox-net.site/ && git pull origin main && sudo systemctl restart nginx && echo '✅ Деплой завершен успешно!'"
+        echo "=== 🚨 ТЕСТ ПОДКЛЮЧЕНИЯ GITHUB -> SERVER ==="
+        SERVER_IP="${{ secrets.SERVER_IP }}"
+        echo "IP сервера: $SERVER_IP"
+        echo ""
+        
+        echo "1. 🔍 DNS resolution:"
+        nslookup $SERVER_IP || echo "❌ DNS FAILED"
+        echo ""
+        
+        echo "2. 📡 Ping test:"
+        ping -c 4 -W 2 $SERVER_IP || echo "❌ PING FAILED"
+        echo ""
+        
+        echo "3. 🚪 Port 22 test:"
+        timeout 5 nc -zv -w 3 $SERVER_IP 22 && echo "✅ PORT 22 OPEN" || echo "❌ PORT 22 CLOSED"
+        echo ""
+        
+        echo "4. 🚪 Port 2222 test:"
+        timeout 5 nc -zv -w 3 $SERVER_IP 2222 && echo "✅ PORT 2222 OPEN" || echo "❌ PORT 2222 CLOSED"
+        echo ""
+        
+        echo "5. 🌐 Traceroute:"
+        timeout 10 traceroute -w 1 -m 10 $SERVER_IP || echo "❌ TRACEROUTE FAILED"
+        echo ""
+        
+        echo "6. 📍 GitHub Runner IP:"
+        echo "IP runner: $(curl -s https://ifconfig.me/ip)"
+        echo ""
+        
+        echo "=== 📞 Сообщите эти данные в поддержку Reg.ru ==="
