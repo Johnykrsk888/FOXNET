@@ -1,21 +1,33 @@
-name: Deploy
-on: [push]
+name: Deploy to Fox-net Site
+
+on:
+  push:
+    branches: [main]
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-      
-    - name: Install sshpass
-      run: sudo apt-get update && sudo apt-get install -y sshpass
 
-    - name: Deploy to Server
+    - name: Add server to known hosts
       run: |
-        echo "🚀 Deploying to server..."
-        sshpass -p "${{ secrets.SERVER_PASSWORD }}" ssh -o StrictHostKeyChecking=no -o ConnectTimeout=30 root@${{ secrets.SERVER_IP }} "
-          cd /var/www/fox-net.site/
+        mkdir -p ~/.ssh
+        ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
+
+    - name: Deploy as root user
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.SERVER_IP }}
+        username: root
+        password: ${{ secrets.SERVER_PASSWORD }}
+        script: |
+          echo "Starting deployment as root..."
+          cd /var/www/FOXNET/
+          git stash
           git pull origin main
-          sudo systemctl restart nginx
-          echo '✅ Deploy successful!'
-        "
+          chown -R www-data:www-data /var/www/FOXNET/
+          chmod -R 755 /var/www/FOXNET/
+          systemctl restart nginx
+          systemctl restart php-fpm
