@@ -7,14 +7,15 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
       
+    - name: Install sshpass
+      run: sudo apt-get update && sudo apt-get install -y sshpass
+
     - name: Deploy to Server
-      uses: appleboy/ssh-action@v1.2.0  # ← ОБНОВИТЕ ВЕРСИЮ!
-      with:
-        host: ${{ secrets.SERVER_IP }}
-        port: 22  # ← ЯВНО УКАЖИТЕ ПОРТ!
-        username: root
-        password: ${{ secrets.SERVER_PASSWORD }}
-        script: |
+      run: |
+        echo "🚀 Deploying to server..."
+        sshpass -p "${{ secrets.SERVER_PASSWORD }}" ssh -o StrictHostKeyChecking=no -o ConnectTimeout=30 root@${{ secrets.SERVER_IP }} "
           cd /var/www/fox-net.site/
           git pull origin main
           sudo systemctl restart nginx
+          echo '✅ Deploy successful!'
+        "
