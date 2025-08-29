@@ -1,4 +1,4 @@
-name: Simple Deploy
+name: Deploy to VPS
 
 on:
   push:
@@ -7,24 +7,26 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
-    - uses: actions/checkout@v4
-    
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Debug - Check secret
+      run: |
+        echo "Password length: ${#SSH_PASSWORD}"
+        echo "First 2 chars: ${SSH_PASSWORD:0:2}..."
+
     - name: Install sshpass
       run: sudo apt-get install -y sshpass
 
-    - name: Copy files
+    - name: Test connection with debug
       run: |
+        # Проверим что пароль передается
+        echo "Testing with password: ${{ secrets.SSH_PASSWORD }}"
+        
         sshpass -p "${{ secrets.SSH_PASSWORD }}" \
-          scp -r -o StrictHostKeyChecking=no \
-          ./* root@89.111.155.196:/var/www/fox-net.site/
-
-    - name: Fix permissions
-      run: |
-        sshpass -p "${{ secrets.SSH_PASSWORD }}" \
-          ssh -o StrictHostKeyChecking=no \
-          root@89.111.155.196 "
-            chown -R www-data:www-data /var/www/fox-net.site/
-            chmod -R 755 /var/www/fox-net.site/
-            systemctl reload nginx
-          "
+          ssh -o StrictHostKeyChecking=no -v \
+          root@89.111.155.196 "echo 'Connection successful'" \
+          && echo "✅ SSH works!" \
+          || echo "❌ SSH failed"
