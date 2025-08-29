@@ -12,11 +12,31 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Deploy with SCP (no SSH keyscan)
+    - name: Install sshpass for password authentication
       run: |
-        mkdir -p ~/.ssh
-        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
-        
-        # Пропускаем проверку хоста
-        scp -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no -r ./* root@89.111.155.196:/var/www/fox-net.site/
+        sudo apt-get update
+        sudo apt-get install -y sshpass
+
+    - name: Deploy files using password
+      run: |
+        # Копируем файлы на сервер используя пароль
+        sshpass -p '${{ secrets.SSH_PASSWORD }}' \
+          scp -o StrictHostKeyChecking=no -r \
+          --exclude='.git' \
+          --exclude='.github' \
+          ./* root@89.111.155.196:/var/www/fox-net.site/
+
+    - name: Set permissions and reload
+      run: |
+        sshpass -p '${{ secrets.SSH_PASSWORD }}' \
+          ssh -o StrictHostKeyChecking=no root@89.111.155.196 << 'EOF'
+          # Устанавливаем права
+          chown -R www-data:www-data /var/www/fox-net.site/
+          chmod -R 755 /var/www/fox-net.site/
+          
+          # Перезагружаем nginx
+          nginx -t && systemctl reload nginx
+          
+          echo "✅ Deployment completed successfully!"
+          echo "🌐 Site available at: http://89.111.155.196"
+        EOF
