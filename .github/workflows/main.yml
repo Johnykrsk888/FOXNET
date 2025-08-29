@@ -1,10 +1,38 @@
-name: Deploy reg.ru
-uses: appleboy/ssh-action@v1.0.0
-  with:
-    host: ${{ secrets.SERVER_IP }}
-    username: root
-    password: ${{ secrets.SERVER_PASSWORD }}  # ← используем пароль вместо ключа
-    script: |
-      cd /var/www/fox-net.site/
-      git pull origin main
-      sudo systemctl restart nginx
+name: Deploy to Reg.ru Server
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Проверка секретов
+      run: |
+        if [ -z "${{ secrets.SERVER_IP }}" ]; then
+          echo "❌ SERVER_IP не установлен"
+          exit 1
+        fi
+        if [ -z "${{ secrets.SERVER_PASSWORD }}" ]; then
+          echo "❌ SERVER_PASSWORD не установлен"
+          exit 1
+        fi
+        echo "✅ Все секреты настроены правильно"
+
+    - name: Deploy to Server
+      uses: appleboy/ssh-action@v1.0.0
+      with:
+        host: ${{ secrets.SERVER_IP }}
+        username: root
+        password: ${{ secrets.SERVER_PASSWORD }}
+        script: |
+          echo "🚀 Подключаемся к серверу..."
+          cd /var/www/fox-net.site/
+          git pull origin main
+          sudo systemctl restart nginx
+          echo "✅ Деплой завершен успешно!"
