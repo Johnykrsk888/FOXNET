@@ -25,4 +25,29 @@ jobs:
           npm install
           pm2 restart server
           systemctl restart nginx
+          echo "--- DEBUGGING INFO ---"
+          echo "Current directory:"
+          pwd
+          echo "
+File list:"
+          ls -la
+          echo "
+Node version:"
+          node -v
+          echo "
+npm version:"
+          npm -v
+          echo "
+pm2 list:"
+          pm2 list
+          echo "
+Nginx config:"
+          cat /etc/nginx/sites-available/default
+          echo "
+Nginx error log:"
+          tail -n 50 /var/log/nginx/error.log
+          echo "
+pm2 error log:"
+          tail -n 50 ~/.pm2/logs/server-error.log
+          echo "--- END DEBUGGING INFO ---"
           echo "Deployment completed successfully!"
