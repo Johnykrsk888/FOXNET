@@ -42,12 +42,12 @@ pm2 list:"
           pm2 list
           echo "
 Nginx config:"
-          cat /etc/nginx/sites-available/default
+          cat /etc/nginx/sites-available/default || true
           echo "
 Nginx error log:"
-          tail -n 50 /var/log/nginx/error.log
+          tail -n 50 /var/log/nginx/error.log || true
           echo "
 pm2 error log:"
-          tail -n 50 ~/.pm2/logs/server-error.log
+          tail -n 50 ~/.pm2/logs/server-error.log || true
           echo "--- END DEBUGGING INFO ---"
           echo "Deployment completed successfully!"
