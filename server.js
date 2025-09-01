@@ -6,7 +6,7 @@ const port = 3000;
 
 // Database connection
 const db = mysql.createConnection({
-  host: 'localhost',
+  host: '127.0.0.1',
   user: 'root',
   password: 'Johnnn1979',
   database: 'foxnet'
