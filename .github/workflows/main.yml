@@ -22,4 +22,6 @@ jobs:
           echo "Starting deployment as root..."
           cd /var/www/FOXNET/
           git pull origin main
+          npm install
+          pm2 restart server
           echo "Deployment completed successfully!"
