@@ -55,7 +55,7 @@ const importData = async () => {
     await new Promise((resolve, reject) => {
       console.log(`Чтение файла ${CSV_PATH}...`);
       fs.createReadStream(CSV_PATH)
-        .pipe(csv({ separator: ';' })) // Используем разделитель и читаем заголовки из файла
+        .pipe(csv({ separator: ';', bom: true })) // Используем разделитель, читаем заголовки и убираем BOM
         .on('data', (row) => {
           // Собираем строку в правильном порядке для SQL-запроса
           const orderedRow = CSV_COLUMNS.map(colName => row[colName]);
