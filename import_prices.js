@@ -8,18 +8,6 @@ require('dotenv').config();
 // Путь к файлу price.csv на вашем сервере
 const CSV_PATH = '/var/www/FOXNET/price.csv'; 
 const TABLE_NAME = 'price';
-// Укажите здесь названия колонок из вашей таблицы `price` в том же порядке, 
-// в котором они идут в CSV файле.
-const CSV_COLUMNS = [
-    'Артикул',
-    'Наименование',
-    'Остаток',
-    'Цена',
-    'Группа',
-    'ПутьКартинки',
-    'КомментарийHTML'
-];
-
 
 // --- ЛОГИКА СКРИПТА ---
 
@@ -52,24 +40,16 @@ const importData = async () => {
     console.log('Таблица успешно очищена.');
 
     const rows = [];
+    let csvHeaders = []; // Будем хранить заголовки здесь
     await new Promise((resolve, reject) => {
       console.log(`Чтение файла ${CSV_PATH}...`);
       fs.createReadStream(CSV_PATH)
-        .pipe(csv({ separator: ';', bom: true })) // Используем разделитель, читаем заголовки и убираем BOM
+        .pipe(csv({ separator: ';', bom: true }))
         .on('headers', (headers) => {
-          console.log('--- DEBUG: Заголовки из CSV ---');
-          console.log(headers);
-          console.log('---------------------------------');
+          csvHeaders = headers; // Сохраняем реальные заголовки из файла
         })
         .on('data', (row) => {
-          if (rows.length === 0) { // Логируем только первую строку
-            console.log('--- DEBUG: Первая строка данных ---');
-            console.log(row);
-            console.log('-----------------------------------');
-          }
-          // Собираем строку в правильном порядке для SQL-запроса
-          const orderedRow = CSV_COLUMNS.map(colName => row[colName]);
-          rows.push(orderedRow);
+          rows.push(Object.values(row)); // Просто добавляем значения в том порядке, как они есть
         })
         .on('end', resolve)
         .on('error', reject);
@@ -85,14 +65,8 @@ const importData = async () => {
     let insertedCount = 0;
     for (let i = 0; i < rows.length; i++) {
       const row = rows[i];
-      const sql = `INSERT INTO ${TABLE_NAME} (${CSV_COLUMNS.map(col => `\`${col}\``).join(',')}) VALUES (?);`;
-
-      if (i === 0) {
-        console.log('--- DEBUG: Первый SQL-запрос ---');
-        const formattedSql = db.format(sql, [row]);
-        console.log(formattedSql);
-        console.log('---------------------------------');
-      }
+      // Теперь используем заголовки из файла для создания запроса
+      const sql = `INSERT INTO ${TABLE_NAME} (${csvHeaders.map(col => `\`${col}\``).join(',')}) VALUES (?);`;
 
       try {
         await new Promise((resolve, reject) => {
