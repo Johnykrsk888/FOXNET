@@ -7,7 +7,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    // Fetch the specific product details from the correct endpoint
     fetch(`/api/product/${productId}`)
         .then(response => {
             if (!response.ok) {
@@ -32,7 +31,7 @@ function displayProductDetails(product) {
     const productDetails = document.getElementById('product-details');
     productDetails.innerHTML = `
         <div class="product-image-large">
-            <img src="PIC/9cd6c8987056d73e9b6597dc0a7ad3fa4fbb6415b60dc82c0206167f147bab22.JPG" alt="${product.title}">
+            <img src="${product.image}" alt="${product.title}">
         </div>
         <div class="product-info-main">
             <h1>${product.title}</h1>
@@ -40,16 +39,38 @@ function displayProductDetails(product) {
             <p class="product-price-single">${product.price} ₽</p>
             <p class="product-quantity">В наличии: ${product.quantity} шт.</p>
             <div class="product-description">
-                <p>${product.description || 'Описание отсутствует.'}</p>
+                <!-- Description will be injected here -->
             </div>
             <button class="cart-btn">В корзину</button>
         </div>
     `;
 
-    // Add to cart event listener
+    const descriptionContainer = productDetails.querySelector('.product-description');
+    if (descriptionContainer) {
+        descriptionContainer.innerHTML = product.description || '<p>Описание отсутствует.</p>';
+
+        setTimeout(() => {
+            const availableHeight = window.innerHeight - descriptionContainer.getBoundingClientRect().top - 100; // 100px buffer
+            
+            if (descriptionContainer.scrollHeight > availableHeight) {
+                descriptionContainer.classList.add('collapsed');
+                const moreBtn = document.createElement('div');
+                moreBtn.className = 'more-btn';
+                moreBtn.textContent = 'еще';
+                descriptionContainer.appendChild(moreBtn);
+
+                moreBtn.addEventListener('click', () => {
+                    descriptionContainer.classList.remove('collapsed');
+                    moreBtn.style.display = 'none';
+                });
+            }
+        }, 200);
+    }
+
     const cartBtn = productDetails.querySelector('.cart-btn');
-    cartBtn.addEventListener('click', () => {
-        // Use the global addToCart function from cart.js
-        addToCart(product);
-    });
+    if (cartBtn) {
+        cartBtn.addEventListener('click', () => {
+            addToCart(product);
+        });
+    }
 }

@@ -562,7 +562,7 @@
 
 /* More specific styles for Product Detail Page */
 .product-info-main h1 {
-    font-size: 28px;
+    font-size: 24px; /* Was 28px */
     margin-bottom: 15px;
     font-family: 'AlibabaSans-Bold', sans-serif;
 }
@@ -572,13 +572,13 @@
     margin-bottom: 10px;
 }
 .product-info-main .product-price-single {
-    font-size: 24px;
+    font-size: 20px; /* Was 24px */
     color: #FF6B00;
     font-family: 'AlibabaSans-Bold', sans-serif;
     margin-bottom: 15px;
 }
 .product-info-main .product-quantity {
-    font-size: 16px;
+    font-size: 15px; /* Was 16px */
     color: #333;
     margin-bottom: 20px;
     font-weight: 500;
@@ -588,6 +588,29 @@
     margin-bottom: 30px;
     line-height: 1.7;
     color: #555;
+    font-size: 14px; /* Normalize font size */
+    position: relative;
+    transition: max-height 0.5s ease-in-out;
+}
+
+.product-description.collapsed {
+    max-height: 200px; 
+    overflow: hidden;
+}
+
+.product-description .more-btn {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    height: 50px;
+    background: linear-gradient(to top, #ffffff 50%, rgba(255, 255, 255, 0));
+    text-align: center;
+    padding-top: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    color: #FF6B00;
+    z-index: 2;
 }
 .product-info-main .cart-btn {
     padding: 12px 30px;

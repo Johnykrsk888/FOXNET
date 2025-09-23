@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
             productCard.innerHTML = `
                 <a href="product.html?id=${product.id}">
                     <div class="product-image">
-                         <img src="PIC/9cd6c8987056d73e9b6597dc0a7ad3fa4fbb6415b60dc82c0206167f147bab22.JPG" alt="${product.title}">
+                         <img src="${product.image}" alt="${product.title}">
                     </div>
                     <div class="product-info">
                         <h3 class="product-title">${product.title}</h3>

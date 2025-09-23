@@ -58,7 +58,7 @@ function displayCartItems() {
         row.innerHTML = `
             <td>
                 <div class="cart-item-name">
-                    <img src="PIC/9cd6c8987056d73e9b6597dc0a7ad3fa4fbb6415b60dc82c0206167f147bab22.JPG" alt="${item.title}">
+                    <img src="${item.image}" alt="${item.title}">
                     <span>${item.title}</span>
                 </div>
             </td>

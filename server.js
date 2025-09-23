@@ -1,15 +1,16 @@
 const express = require('express');
 const mysql = require('mysql');
+require('dotenv').config();
 
 const app = express();
 const port = 3000;
 
 // Database connection
 const db = mysql.createConnection({
-  host: 'fox-net.site',
-  user: 'foxnet_app',
-  password: 'FoxAppPass123!',
-  database: 'foxnet'
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME
 });
 
 db.connect((err) => {
@@ -26,11 +27,12 @@ app.use(express.static(__dirname));
 // API endpoint to get all products from the 'price' table
 app.get('/api/products', (req, res) => {
   const sql = 'SELECT ' +
-    '`Код` as id, ' +
+    '`Артикул` as id, ' +
     '`Артикул` as sku, ' +
     '`Наименование` as title, ' +
-    '`Свободный остаток` as quantity, ' +
-    '`РРЦ` as price ' +
+    '`Остаток` as quantity, ' +
+    '`Цена` as price, ' +
+    '`ПутьКартинки` as image ' +
     'FROM price';
   db.query(sql, (err, results) => {
     if (err) {
@@ -46,13 +48,14 @@ app.get('/api/products', (req, res) => {
 app.get('/api/product/:id', (req, res) => {
   const productId = req.params.id;
   const sql = 'SELECT ' +
-    '`Код` as id, ' +
+    '`Артикул` as id, ' +
     '`Артикул` as sku, ' +
     '`Наименование` as title, ' +
-    '`Описание` as description, ' +
-    '`Свободный остаток` as quantity, ' +
-    '`РРЦ` as price ' +
-    'FROM price WHERE `Код` = ?';
+    '`КомментарийHTML` as description, ' +
+    '`Остаток` as quantity, ' +
+    '`Цена` as price, ' +
+    '`ПутьКартинки` as image ' +
+    'FROM price WHERE `Артикул` = ?';
   db.query(sql, [productId], (err, results) => {
     if (err) {
       console.error('Error fetching product:', err);
