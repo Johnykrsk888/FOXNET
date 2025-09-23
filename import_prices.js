@@ -65,7 +65,7 @@ const importData = async () => {
     // Крайний метод: не указываем названия колонок в INSERT, полагаясь на порядок
     const sql = `INSERT INTO ${TABLE_NAME} VALUES (?);`;
     await new Promise((resolve, reject) => {
-      db.query(sql, [rows], (err, results) => {
+      db.query(sql, rows, (err, results) => {
         if (err) return reject(err);
         console.log(`Успешно добавлено ${results.affectedRows} записей.`);
         resolve();
