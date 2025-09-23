@@ -1,6 +1,6 @@
 const express = require('express');
 const mysql = require('mysql');
-require('dotenv').config();
+require('dotenv').config({ path: '/var/www/FOXNET/.env' });
 
 const app = express();
 const port = 3000;
