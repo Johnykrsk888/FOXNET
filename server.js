@@ -1,6 +1,6 @@
 const express = require('express');
 const mysql = require('mysql');
-require('dotenv').config({ path: '/var/www/FOXNET/.env' });
+require('dotenv').config();
 
 const app = express();
 const port = 3000;
@@ -32,7 +32,8 @@ app.get('/api/products', (req, res) => {
     '`Наименование` as title, ' +
     '`Остаток` as quantity, ' +
     '`Цена` as price, ' +
-    '`ПутьКартинки` as image ' +
+    '`ПутьКартинки` as image, ' +
+    '`Группа` as `group` ' +
     'FROM price';
   db.query(sql, (err, results) => {
     if (err) {
