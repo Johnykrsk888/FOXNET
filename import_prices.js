@@ -56,7 +56,17 @@ const importData = async () => {
       console.log(`Чтение файла ${CSV_PATH}...`);
       fs.createReadStream(CSV_PATH)
         .pipe(csv({ separator: ';', bom: true })) // Используем разделитель, читаем заголовки и убираем BOM
+        .on('headers', (headers) => {
+          console.log('--- DEBUG: Заголовки из CSV ---');
+          console.log(headers);
+          console.log('---------------------------------');
+        })
         .on('data', (row) => {
+          if (rows.length === 0) { // Логируем только первую строку
+            console.log('--- DEBUG: Первая строка данных ---');
+            console.log(row);
+            console.log('-----------------------------------');
+          }
           // Собираем строку в правильном порядке для SQL-запроса
           const orderedRow = CSV_COLUMNS.map(colName => row[colName]);
           rows.push(orderedRow);
