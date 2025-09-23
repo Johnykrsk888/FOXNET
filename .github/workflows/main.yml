@@ -24,6 +24,6 @@ jobs:
           git pull origin main
           npm install
           npm install pm2 -g
-          pm2 reload server.js || pm2 start server.js
+          pm2 reload my-fresh-app || pm2 start server.js --name my-fresh-app
           systemctl restart nginx
           echo "Deployment completed successfully!"
