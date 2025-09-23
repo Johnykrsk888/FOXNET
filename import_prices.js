@@ -51,6 +51,9 @@ const importData = async () => {
         .pipe(csv({ separator: ';', bom: true }))
         .on('headers', (headers) => {
           csvHeaders = headers; // Сохраняем реальные заголовки из файла
+          console.log('--- DEBUG: Заголовки из CSV (как прочитаны) ---');
+          console.log(csvHeaders);
+          console.log('--------------------------------------------------');
           artikulIndex = csvHeaders.indexOf('Артикул'); // Находим индекс Артикула
         })
         .on('data', (row) => {
@@ -73,6 +76,9 @@ const importData = async () => {
     console.log('Загрузка данных в базу...');
     // В INSERT запросе используем отфильтрованные заголовки
     const filteredHeaders = csvHeaders.filter(header => header !== 'Артикул');
+    console.log('--- DEBUG: Заголовки после фильтрации ---');
+    console.log(filteredHeaders);
+    console.log('------------------------------------------');
     const columnNames = filteredHeaders.map(col => `\`${col}\``).join(',');
     const placeholders = `(${filteredHeaders.map(() => '?').join(',')})`; // Теперь используем отфильтрованные заголовки
     const valuesToInsert = rows.map(row => row); // rows уже массив массивов
