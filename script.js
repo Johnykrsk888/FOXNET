@@ -5,6 +5,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const sortSelect = document.querySelector('.sort-select');
     const clearSearchBtn = document.getElementById('clear-search-btn');
     const categoryFilterContainer = document.getElementById('category-filter-options');
+    const minPriceInput = document.querySelector('.price-range .price-input:nth-child(1)');
+    const maxPriceInput = document.querySelector('.price-range .price-input:nth-child(3)');
+    const applyFiltersBtn = document.querySelector('.apply-btn');
 
     let allProducts = [];
 
@@ -36,6 +39,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Add event listeners after categories are rendered
         document.querySelectorAll('.category-checkbox').forEach(checkbox => {
+            checkbox.addEventListener('change', updateProductDisplay);
+        });
+
+        // Add event listeners for fiber count checkboxes
+        document.querySelectorAll('input[id^="fiber-"]').forEach(checkbox => {
             checkbox.addEventListener('change', updateProductDisplay);
         });
     }
@@ -91,6 +99,30 @@ document.addEventListener('DOMContentLoaded', () => {
             displayedProducts = displayedProducts.filter(product => selectedCategories.includes(product.group));
         }
 
+        // Filter by fiber count
+        const selectedFibers = [...document.querySelectorAll('input[id^="fiber-"]:checked')].map(cb => parseInt(cb.id.replace('fiber-', '')));
+        if (selectedFibers.length > 0) {
+            displayedProducts = displayedProducts.filter(product => {
+                const fiberMatch = product.title.match(/(\d+)\s*(волокон|волокна|волокно)/);
+                if (fiberMatch) {
+                    const fiberCount = parseInt(fiberMatch[1]);
+                    return selectedFibers.includes(fiberCount);
+                }
+                return false;
+            });
+        }
+
+        // Filter by price range
+        const minPrice = minPriceInput ? parseFloat(minPriceInput.value) : null;
+        const maxPrice = maxPriceInput ? parseFloat(maxPriceInput.value) : null;
+
+        if (minPrice !== null && !isNaN(minPrice)) {
+            displayedProducts = displayedProducts.filter(product => parseFloat(String(product.price).replace(/\s/g, '')) >= minPrice);
+        }
+        if (maxPrice !== null && !isNaN(maxPrice)) {
+            displayedProducts = displayedProducts.filter(product => parseFloat(String(product.price).replace(/\s/g, '')) <= maxPrice);
+        }
+
         // Filter by search term
         if (searchTerm) {
             displayedProducts = displayedProducts.filter(product => 
@@ -124,6 +156,9 @@ document.addEventListener('DOMContentLoaded', () => {
             if (searchInput) searchInput.value = '';
             updateProductDisplay();
         });
+    }
+    if (applyFiltersBtn) {
+        applyFiltersBtn.addEventListener('click', updateProductDisplay);
     }
     if (productGrid) {
         productGrid.addEventListener('click', (e) => {
