@@ -43,15 +43,22 @@ const importData = async () => {
 
     const rows = [];
     let csvHeaders = []; // Будем хранить заголовки здесь
+    let artikulIndex = -1; // Индекс колонки Артикул
+
     await new Promise((resolve, reject) => {
       console.log(`Чтение файла ${CSV_PATH}...`);
       fs.createReadStream(CSV_PATH)
         .pipe(csv({ separator: ';', bom: true }))
         .on('headers', (headers) => {
           csvHeaders = headers; // Сохраняем реальные заголовки из файла
+          artikulIndex = csvHeaders.indexOf('Артикул'); // Находим индекс Артикула
         })
         .on('data', (row) => {
-          rows.push(Object.values(row)); // Просто добавляем значения в том порядке, как они есть
+          const rowValues = Object.values(row);
+          if (artikulIndex !== -1) {
+            rowValues.splice(artikulIndex, 1); // Удаляем значение Артикула
+          }
+          rows.push(rowValues); // Добавляем остальные значения
         })
         .on('end', resolve)
         .on('error', reject);
@@ -64,8 +71,9 @@ const importData = async () => {
     }
 
     console.log('Загрузка данных в базу...');
-    // Явно строим запрос для массовой вставки
-    const columnNames = csvHeaders.map(col => `\`${col}\``).join(',');
+    // В INSERT запросе используем отфильтрованные заголовки
+    const filteredHeaders = csvHeaders.filter(header => header !== 'Артикул');
+    const columnNames = filteredHeaders.map(col => `\`${col}\``).join(',');
     const placeholders = `(${csvHeaders.map(() => '?').join(',')})`; // Например, (?,?,?)
     const valuesToInsert = rows.map(row => row); // rows уже массив массивов
 
