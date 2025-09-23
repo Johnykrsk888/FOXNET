@@ -81,15 +81,34 @@ const importData = async () => {
       return;
     }
 
-    console.log('Загрузка данных в базу...');
-    const sql = `INSERT INTO ${TABLE_NAME} (${CSV_COLUMNS.map(col => '`' + col + '`').join(',')}) VALUES ?`;
-    await new Promise((resolve, reject) => {
-      db.query(sql, [rows], (err, results) => {
-        if (err) return reject(err);
-        console.log(`Успешно добавлено ${results.affectedRows} записей.`);
-        resolve();
-      });
-    });
+    console.log('Загрузка данных в базу (построчно)...');
+    let insertedCount = 0;
+    for (let i = 0; i < rows.length; i++) {
+      const row = rows[i];
+      const sql = `INSERT INTO ${TABLE_NAME} (${CSV_COLUMNS.map(col => `\`${col}\``).join(',')}) VALUES (?);`;
+
+      if (i === 0) {
+        console.log('--- DEBUG: Первый SQL-запрос ---');
+        const formattedSql = db.format(sql, [row]);
+        console.log(formattedSql);
+        console.log('---------------------------------');
+      }
+
+      try {
+        await new Promise((resolve, reject) => {
+          db.query(sql, [row], (err, results) => {
+            if (err) return reject(err);
+            insertedCount += results.affectedRows;
+            resolve();
+          });
+        });
+      } catch (error) {
+        console.error(`Ошибка при вставке строки ${i + 1}:`, row);
+        console.error(error);
+        throw error; // Останавливаемся на первой ошибке
+      }
+    }
+    console.log(`Успешно добавлено ${insertedCount} записей.`);
 
   } catch (error) {
     console.error('Произошла ошибка во время импорта:', error);
