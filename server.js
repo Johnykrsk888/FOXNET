@@ -44,6 +44,20 @@ app.get('/api/products', (req, res) => {
   });
 });
 
+// API endpoint to get all unique categories (groups)
+app.get('/api/categories', (req, res) => {
+  const sql = 'SELECT DISTINCT `Группа` FROM price WHERE `Группа` IS NOT NULL AND `Группа` != "" ORDER BY `Группа`';
+  db.query(sql, (err, results) => {
+    if (err) {
+      console.error('Error fetching categories:', err);
+      res.status(500).send('Error fetching categories');
+      return;
+    }
+    const categories = results.map(row => row.Группа);
+    res.json(categories);
+  });
+});
+
 
 app.get('/api/product/:id', (req, res) => {
   const productId = req.params.id;
