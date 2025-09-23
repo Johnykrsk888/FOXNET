@@ -61,28 +61,16 @@ const importData = async () => {
       return;
     }
 
-    console.log('Загрузка данных в базу (построчно)...');
-    let insertedCount = 0;
-    for (let i = 0; i < rows.length; i++) {
-      const row = rows[i];
-      // Теперь используем заголовки из файла для создания запроса
-      const sql = `INSERT INTO ${TABLE_NAME} (${csvHeaders.map(col => `\`${col}\``).join(',')}) VALUES (?);`;
-
-      try {
-        await new Promise((resolve, reject) => {
-          db.query(sql, [row], (err, results) => {
-            if (err) return reject(err);
-            insertedCount += results.affectedRows;
-            resolve();
-          });
-        });
-      } catch (error) {
-        console.error(`Ошибка при вставке строки ${i + 1}:`, row);
-        console.error(error);
-        throw error; // Останавливаемся на первой ошибке
-      }
-    }
-    console.log(`Успешно добавлено ${insertedCount} записей.`);
+    console.log('Загрузка данных в базу...');
+    // Крайний метод: не указываем названия колонок в INSERT, полагаясь на порядок
+    const sql = `INSERT INTO ${TABLE_NAME} VALUES (?);`;
+    await new Promise((resolve, reject) => {
+      db.query(sql, [rows], (err, results) => {
+        if (err) return reject(err);
+        console.log(`Успешно добавлено ${results.affectedRows} записей.`);
+        resolve();
+      });
+    });
 
   } catch (error) {
     console.error('Произошла ошибка во время импорта:', error);
