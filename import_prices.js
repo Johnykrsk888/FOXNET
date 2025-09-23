@@ -56,9 +56,11 @@ const importData = async () => {
     await new Promise((resolve, reject) => {
       console.log(`Чтение файла ${CSV_PATH}...`);
       fs.createReadStream(CSV_PATH)
-        .pipe(csv({ headers: CSV_COLUMNS, separator: ';' })) // Указываем разделитель и названия колонок
+        .pipe(csv({ separator: ';' })) // Используем разделитель и читаем заголовки из файла
         .on('data', (row) => {
-          rows.push(Object.values(row));
+          // Собираем строку в правильном порядке для SQL-запроса
+          const orderedRow = CSV_COLUMNS.map(colName => row[colName]);
+          rows.push(orderedRow);
         })
         .on('end', resolve)
         .on('error', reject);
