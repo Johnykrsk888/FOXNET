@@ -74,7 +74,7 @@ const importData = async () => {
     // В INSERT запросе используем отфильтрованные заголовки
     const filteredHeaders = csvHeaders.filter(header => header !== 'Артикул');
     const columnNames = filteredHeaders.map(col => `\`${col}\``).join(',');
-    const placeholders = `(${csvHeaders.map(() => '?').join(',')})`; // Например, (?,?,?)
+    const placeholders = `(${filteredHeaders.map(() => '?').join(',')})`; // Теперь используем отфильтрованные заголовки
     const valuesToInsert = rows.map(row => row); // rows уже массив массивов
 
     const sql = `INSERT INTO ${TABLE_NAME} (${columnNames}) VALUES ${valuesToInsert.map(() => placeholders).join(',')};`;
