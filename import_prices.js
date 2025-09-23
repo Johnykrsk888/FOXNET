@@ -64,10 +64,16 @@ const importData = async () => {
     }
 
     console.log('Загрузка данных в базу...');
-    // Крайний метод: не указываем названия колонок в INSERT, полагаясь на порядок
-    const sql = `INSERT INTO ${TABLE_NAME} VALUES (?);`;
+    // Явно строим запрос для массовой вставки
+    const columnNames = csvHeaders.map(col => `\`${col}\``).join(',');
+    const placeholders = `(${csvHeaders.map(() => '?').join(',')})`; // Например, (?,?,?)
+    const valuesToInsert = rows.map(row => row); // rows уже массив массивов
+
+    const sql = `INSERT INTO ${TABLE_NAME} (${columnNames}) VALUES ${valuesToInsert.map(() => placeholders).join(',')};`;
+
     await new Promise((resolve, reject) => {
-      db.query(sql, rows, (err, results) => { // Передаем rows напрямую для массовой вставки
+      // Передаем значения как плоский массив для плейсхолдеров
+      db.query(sql, [].concat(...valuesToInsert), (err, results) => {
         if (err) return reject(err);
         console.log(`Успешно добавлено ${results.affectedRows} записей.`);
         resolve();
